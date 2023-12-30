@@ -3,6 +3,4 @@ module.exports = {
   rules: {
     "type-enum": [2, "always", ["build","ci","docs","feat","fix","refactor","style","wip"]]
   }
-}
-
-
+};
