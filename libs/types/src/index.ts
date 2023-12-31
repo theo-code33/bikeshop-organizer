@@ -9,6 +9,7 @@ import { Task } from './types/task.type';
 import { TaskCategory } from './types/taskCategory.type';
 import { TaskCategoryStatus } from './types/taskCategoryStatus.type';
 import { User } from './types/user.type';
+import { Roles } from './types/roles.type';
 export {
   Bike,
   User,
@@ -21,4 +22,5 @@ export {
   Task,
   TaskCategory,
   TaskCategoryStatus,
+  Roles,
 };
