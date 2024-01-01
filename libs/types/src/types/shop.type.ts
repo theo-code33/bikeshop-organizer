@@ -5,7 +5,6 @@ import { TaskCategory } from './taskCategory.type';
 import { User } from './user.type';
 
 export interface Shop extends Common {
-  id: string;
   user: User;
   name: string;
   siret: string;

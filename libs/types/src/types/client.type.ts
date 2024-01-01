@@ -3,7 +3,6 @@ import { Common } from './common.type';
 import { Shop } from './shop.type';
 
 export interface Client extends Common {
-  id: string;
   firstname: string;
   lastname: string;
   phoneNumber: string;

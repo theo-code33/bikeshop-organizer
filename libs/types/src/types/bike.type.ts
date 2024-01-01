@@ -4,7 +4,6 @@ import { Common } from './common.type';
 import { Task } from './task.type';
 
 export interface Bike extends Common {
-  id: string;
   brand: Brand;
   model: string;
   bicycode?: string;

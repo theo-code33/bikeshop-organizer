@@ -4,7 +4,6 @@ import { Task } from './task.type';
 import { TaskCategoryStatus } from './taskCategoryStatus.type';
 
 export interface TaskCategory extends Common {
-  id: string;
   name: string;
   shop: Shop;
   taskCategoryStatus: TaskCategoryStatus;

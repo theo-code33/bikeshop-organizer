@@ -5,7 +5,6 @@ import { TaskCategory } from './taskCategory.type';
 import { TaskCategoryStatus } from './taskCategoryStatus.type';
 
 export interface Task extends Common {
-  id: string;
   products: Product[];
   status: TaskCategoryStatus;
   mission: TaskCategory;
