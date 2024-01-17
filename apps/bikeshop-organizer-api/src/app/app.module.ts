@@ -7,11 +7,13 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    MailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:

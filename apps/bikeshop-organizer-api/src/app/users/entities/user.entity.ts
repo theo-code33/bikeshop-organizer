@@ -18,6 +18,10 @@ export class User {
   password: string;
   @Column({ nullable: false, type: 'varchar', default: Roles.USER })
   role: Roles;
+  @Column({ nullable: true })
+  resetPasswordToken?: string;
+  @Column({ nullable: true })
+  resetPasswordExpires?: Date;
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
