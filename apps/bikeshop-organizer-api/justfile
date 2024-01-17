@@ -1,4 +1,4 @@
 up-dev:
-  docker compose --env-file .env.development up -d
+  docker compose --env-file .env.development -f docker-compose.dev.yml up -d
 
 alias ud := up-dev

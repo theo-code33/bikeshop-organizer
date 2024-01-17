@@ -47,6 +47,12 @@
       "options": {
         "jestConfig": "apps/bikeshop-organizer-api/jest.config.ts"
       }
+    },
+    "up-dev": {
+      "command": "APP_PATH=$(pwd)/{projectRoot} && docker-compose --env-file $APP_PATH/.env.development -f $APP_PATH/docker-compose.dev.yml up -d"
+    },
+    "down-dev": {
+      "command": "APP_PATH=$(pwd)/{projectRoot} && docker-compose --env-file $APP_PATH/.env.development -f $APP_PATH/docker-compose.dev.yml down"
     }
   },
   "tags": []
