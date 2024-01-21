@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { MailModule } from './mail/mail.module';
+import { ShopModule } from './shop/shop.module';
+import { Shop } from './shop/entities/shop.entity';
 
 @Module({
   imports: [
@@ -26,9 +28,10 @@ import { MailModule } from './mail/mail.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User],
+      entities: [User, Shop],
       synchronize: true,
     }),
+    ShopModule,
   ],
   controllers: [AppController],
   providers: [AppService],
