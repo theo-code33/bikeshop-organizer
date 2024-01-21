@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Shop } from '../../shop/entities/shop.entity';
 
 @Entity()
 export class User {
@@ -22,6 +24,8 @@ export class User {
   resetPasswordToken?: string;
   @Column({ nullable: true })
   resetPasswordExpires?: Date;
+  @OneToOne(() => Shop, (shop) => shop.user)
+  shop?: Shop;
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
