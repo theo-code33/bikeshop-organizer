@@ -30,11 +30,11 @@ export class Shop {
   @Column({ nullable: false })
   phoneNumber: string;
   @Column({ nullable: true })
-  taskCategories?: string;
+  taskCategories?: string; // TODO: create a TaskCategory entity
   @Column({ nullable: true })
-  clients?: string;
+  clients?: string; // TODO: create a Client entity
   @Column({ nullable: true })
-  products?: string;
+  products?: string; // TODO: create a Product entity
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
