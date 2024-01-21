@@ -6,8 +6,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UserService } from '../user/user.service';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { MailService } from '../mail/mail.service';
 import { randomBytes } from 'crypto';
@@ -16,7 +16,7 @@ import { randomBytes } from 'crypto';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService,
+    private readonly userService: UserService,
     private readonly mailService: MailService
   ) {}
   @Post('register')

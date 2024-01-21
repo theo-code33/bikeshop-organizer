@@ -1,5 +1,5 @@
 import { DeepPartial } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 
 export class CreateShopDto {
   user: DeepPartial<User>;

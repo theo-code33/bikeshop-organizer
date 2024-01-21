@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { LoginDto } from '../auth/dto/login.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>
   ) {}

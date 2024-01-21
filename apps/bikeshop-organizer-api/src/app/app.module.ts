@@ -5,8 +5,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
+import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
 import { MailModule } from './mail/mail.module';
 import { ShopModule } from './shop/shop.module';
 import { Shop } from './shop/entities/shop.entity';
@@ -29,7 +29,7 @@ import { Shop } from './shop/entities/shop.entity';
       synchronize: true,
     }),
     AuthModule,
-    UsersModule,
+    UserModule,
     MailModule,
     ShopModule,
   ],
