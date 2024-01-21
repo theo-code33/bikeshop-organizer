@@ -13,9 +13,6 @@ import { Shop } from './shop/entities/shop.entity';
 
 @Module({
   imports: [
-    AuthModule,
-    UsersModule,
-    MailModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
@@ -31,6 +28,9 @@ import { Shop } from './shop/entities/shop.entity';
       entities: [User, Shop],
       synchronize: true,
     }),
+    AuthModule,
+    UsersModule,
+    MailModule,
     ShopModule,
   ],
   controllers: [AppController],
