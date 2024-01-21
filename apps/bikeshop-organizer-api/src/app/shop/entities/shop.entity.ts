@@ -1,18 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
+import { Common } from '../../common/entities/common.entity';
 
 @Entity()
-export class Shop {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Shop extends Common {
   @OneToOne(() => User, (user) => user.shop)
   user: User;
   @Column({ nullable: false })
@@ -35,10 +26,4 @@ export class Shop {
   clients?: string; // TODO: create a Client entity
   @Column({ nullable: true })
   products?: string; // TODO: create a Product entity
-  @CreateDateColumn()
-  createdAt: Date;
-  @UpdateDateColumn()
-  updatedAt: Date;
-  @DeleteDateColumn()
-  deletedAt?: Date;
 }

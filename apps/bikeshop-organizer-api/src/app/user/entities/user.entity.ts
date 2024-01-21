@@ -1,19 +1,10 @@
 import { Roles } from '@bikeshop-organizer/types';
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
+import { Common } from '../../common/entities/common.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class User extends Common {
   @Column({ unique: true, nullable: false })
   email: string;
   @Column({ nullable: false })
@@ -26,10 +17,4 @@ export class User {
   resetPasswordExpires?: Date;
   @OneToOne(() => Shop, (shop) => shop.user)
   shop?: Shop;
-  @CreateDateColumn()
-  createdAt: Date;
-  @UpdateDateColumn()
-  updatedAt: Date;
-  @DeleteDateColumn()
-  deletedAt?: Date;
 }
