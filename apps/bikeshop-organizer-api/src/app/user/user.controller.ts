@@ -25,7 +25,6 @@ export class UserController {
   }
 
   @Patch(':id')
-  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
