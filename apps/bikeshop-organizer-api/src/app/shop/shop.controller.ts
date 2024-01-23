@@ -8,12 +8,18 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { CreateShopDto } from './dto/create-shop.dto';
 import { UpdateShopDto } from './dto/update-shop.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 
 @Controller('shop')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class ShopController {
   constructor(private readonly shopService: ShopService) {}
 
@@ -30,6 +36,7 @@ export class ShopController {
   }
 
   @Get(':id')
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP, RolesEnum.EMPLOYEE)
   findOne(@Param('id') id: string) {
     try {
       return this.shopService.findOne(id);
@@ -42,6 +49,7 @@ export class ShopController {
   }
 
   @Patch(':id')
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
   update(@Param('id') id: string, @Body() updateShopDto: UpdateShopDto) {
     try {
       return this.shopService.update(id, updateShopDto);
@@ -54,6 +62,7 @@ export class ShopController {
   }
 
   @Delete(':id')
+  @Roles(RolesEnum.ADMIN)
   remove(@Param('id') id: string) {
     try {
       return this.shopService.remove(id);
