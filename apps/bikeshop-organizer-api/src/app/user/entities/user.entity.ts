@@ -9,7 +9,7 @@ export class User extends Common {
   email: string;
   @Column({ nullable: false })
   password: string;
-  @Column({ nullable: false, type: 'varchar', default: Roles.USER })
+  @Column({ nullable: false, type: 'enum', enum: Roles, default: Roles.USER })
   role: Roles;
   @Column({ nullable: true })
   resetPasswordToken?: string;
