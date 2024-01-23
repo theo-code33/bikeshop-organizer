@@ -1,10 +1,11 @@
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Common } from '../../common/entities/common.entity';
 
 @Entity()
 export class Shop extends Common {
-  @OneToOne(() => User, (user) => user.shop)
+  @OneToOne(() => User)
+  @JoinColumn()
   user: User;
   @Column({ nullable: false })
   name: string;
