@@ -24,6 +24,7 @@ export class ShopController {
   constructor(private readonly shopService: ShopService) {}
 
   @Post()
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
   create(@Body() createShopDto: CreateShopDto) {
     try {
       return this.shopService.create(createShopDto);
