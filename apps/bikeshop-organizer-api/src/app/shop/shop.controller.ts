@@ -9,6 +9,7 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { CreateShopDto } from './dto/create-shop.dto';
@@ -17,6 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { User } from '../user/entities/user.entity';
 
 @Controller('shop')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -51,8 +53,19 @@ export class ShopController {
 
   @Patch(':id')
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
-  update(@Param('id') id: string, @Body() updateShopDto: UpdateShopDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateShopDto: UpdateShopDto,
+    @Req() req: Request & { user: User }
+  ) {
     try {
+      if (req.user.role !== RolesEnum.ADMIN) {
+        const { user } = req;
+        const shop = await this.shopService.findOne(id);
+        if (user.id !== shop.user.id) {
+          throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
+        }
+      }
       return this.shopService.update(id, updateShopDto);
     } catch (error) {
       throw new HttpException(
