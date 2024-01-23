@@ -59,8 +59,8 @@ export class ShopController {
     @Req() req: Request & { user: User }
   ) {
     try {
-      if (req.user.role !== RolesEnum.ADMIN) {
-        const { user } = req;
+      const { user } = req;
+      if (user.role !== RolesEnum.ADMIN) {
         const shop = await this.shopService.findOne(id);
         if (user.id !== shop.user.id) {
           throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
