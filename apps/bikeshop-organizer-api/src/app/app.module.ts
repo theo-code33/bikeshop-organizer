@@ -10,6 +10,8 @@ import { User } from './user/entities/user.entity';
 import { MailModule } from './mail/mail.module';
 import { ShopModule } from './shop/shop.module';
 import { Shop } from './shop/entities/shop.entity';
+import { ClientModule } from './client/client.module';
+import { Client } from './client/entities/client.entity';
 
 @Module({
   imports: [
@@ -25,13 +27,14 @@ import { Shop } from './shop/entities/shop.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Shop],
+      entities: [User, Shop, Client],
       synchronize: true,
     }),
     AuthModule,
     UserModule,
     MailModule,
     ShopModule,
+    ClientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
