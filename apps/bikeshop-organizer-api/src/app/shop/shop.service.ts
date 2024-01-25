@@ -19,7 +19,7 @@ export class ShopService {
   async findOne(id: string) {
     const shop = await this.shopRepository.findOne({
       where: { id },
-      relations: ['user'],
+      relations: ['user', 'clients'],
     });
     if (!shop) {
       throw new HttpException('Shop not found', HttpStatus.NOT_FOUND);

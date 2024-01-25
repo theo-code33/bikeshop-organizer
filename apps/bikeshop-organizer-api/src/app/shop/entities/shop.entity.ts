@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Common } from '../../common/entities/common.entity';
+import { Client } from '../../client/entities/client.entity';
 
 @Entity()
 export class Shop extends Common {
@@ -23,8 +24,8 @@ export class Shop extends Common {
   phoneNumber: string;
   @Column({ nullable: true })
   taskCategories?: string; // TODO: create a TaskCategory entity
-  @Column({ nullable: true })
-  clients?: string; // TODO: create a Client entity
+  @OneToMany(() => Client, (client) => client.shop)
+  clients?: Client[];
   @Column({ nullable: true })
   products?: string; // TODO: create a Product entity
 }
