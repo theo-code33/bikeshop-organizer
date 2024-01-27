@@ -15,17 +15,17 @@ export class ClientService {
     return await this.clientRepository.save(createClientDto);
   }
 
-  findAllByShop(shopId: string) {
-    return this.clientRepository.find({
+  async findAllByShop(shopId: string) {
+    return await this.clientRepository.find({
       where: { shop: { id: shopId } },
-      relations: ['shop'],
+      relations: ['shop', 'bikes'],
     });
   }
 
   async findOne(id: string) {
-    const client = this.clientRepository.findOne({
+    const client = await this.clientRepository.findOne({
       where: { id },
-      relations: ['shop'],
+      relations: ['shop', 'bikes'],
     });
     if (!client) {
       throw new HttpException('Client not found', HttpStatus.NOT_FOUND);
@@ -42,7 +42,7 @@ export class ClientService {
     return client;
   }
 
-  remove(id: string) {
-    return this.clientRepository.delete(id);
+  async remove(id: string) {
+    return await this.clientRepository.delete(id);
   }
 }
