@@ -1,6 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Common } from '../../common/entities/common.entity';
+import { Bike } from '../../bike/entities/bike.entity';
 
 @Entity()
 export class Client extends Common {
@@ -22,6 +29,6 @@ export class Client extends Common {
   postalCode: string;
   @Column({ nullable: false })
   city: string;
-  @Column({ nullable: true })
-  bike?: string; // TODO connect to Bike entity
+  @OneToMany(() => Bike, (bike) => bike.client)
+  bikes?: string[];
 }
