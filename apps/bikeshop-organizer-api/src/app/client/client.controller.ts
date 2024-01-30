@@ -18,7 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
-import { User } from '../user/entities/user.entity';
+import { IRequest } from '../auth/types/request.type';
 
 @Controller('client')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -40,10 +40,7 @@ export class ClientController {
 
   @Get('shop/:shopId')
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP, RolesEnum.EMPLOYEE)
-  findAllByShop(
-    @Param('shopId') shopId: string,
-    @Req() req: Request & { user: User }
-  ) {
+  findAllByShop(@Param('shopId') shopId: string, @Req() req: IRequest) {
     try {
       const { user } = req;
       if (
@@ -63,7 +60,7 @@ export class ClientController {
 
   @Get(':id')
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP, RolesEnum.EMPLOYEE)
-  async findOne(@Param('id') id: string, @Req() req: Request & { user: User }) {
+  async findOne(@Param('id') id: string, @Req() req: IRequest) {
     try {
       const { user } = req;
       const client = await this.clientService.findOne(id);
