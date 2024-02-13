@@ -14,6 +14,7 @@ import { ClientModule } from './client/client.module';
 import { Client } from './client/entities/client.entity';
 import { BikeModule } from './bike/bike.module';
 import { Bike } from './bike/entities/bike.entity';
+import { BrandModule } from './brand/brand.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { Bike } from './bike/entities/bike.entity';
     ShopModule,
     ClientModule,
     BikeModule,
+    BrandModule,
   ],
   controllers: [AppController],
   providers: [AppService],
