@@ -5,7 +5,7 @@ import { Client } from '../../client/entities/client.entity';
 
 @Entity()
 export class Shop extends Common {
-  @OneToOne(() => User)
+  @OneToOne(() => User, (user) => user.shop)
   @JoinColumn()
   user: User;
   @Column({ nullable: false })

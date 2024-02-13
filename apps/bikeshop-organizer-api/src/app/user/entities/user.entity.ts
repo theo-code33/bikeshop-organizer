@@ -1,5 +1,5 @@
 import { Roles } from '@bikeshop-organizer/types';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Common } from '../../common/entities/common.entity';
 
@@ -15,7 +15,6 @@ export class User extends Common {
   resetPasswordToken?: string;
   @Column({ nullable: true })
   resetPasswordExpires?: Date;
-  @OneToOne(() => Shop)
-  @JoinColumn()
+  @OneToOne(() => Shop, (shop) => shop.user)
   shop?: Shop;
 }

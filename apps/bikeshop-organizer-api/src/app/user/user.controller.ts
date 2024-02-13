@@ -16,7 +16,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
-import { User } from './entities/user.entity';
+import { IRequest } from '../auth/types/request.type';
 
 @Controller('user')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -39,7 +39,7 @@ export class UserController {
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @Req() req: Request & { user: User }
+    @Req() req: IRequest
   ) {
     try {
       const { user } = req;
