@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Brand } from './entities/brand.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BrandService {
-  create(createBrandDto: CreateBrandDto) {
-    return 'This action adds a new brand';
+  constructor(
+    @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>
+  ) {}
+  async create(createBrandDto: CreateBrandDto) {
+    return await this.brandRepository.save(createBrandDto);
   }
 
-  findAll() {
-    return `This action returns all brand`;
+  async findAll() {
+    return await this.brandRepository.find({
+      relations: ['shop'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brand`;
+  async findOne(id: string) {
+    const brand = await this.brandRepository.findOne({
+      where: { id },
+      relations: ['shop'],
+    });
+    if (!brand) {
+      throw new HttpException('Brand not found', HttpStatus.NOT_FOUND);
+    }
+    return brand;
   }
 
-  update(id: number, updateBrandDto: UpdateBrandDto) {
-    return `This action updates a #${id} brand`;
+  async update(id: string, updateBrandDto: UpdateBrandDto) {
+    await this.brandRepository.update(id, updateBrandDto);
+    return await this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
+  async remove(id: string) {
+    return await this.brandRepository.delete(id);
   }
 }

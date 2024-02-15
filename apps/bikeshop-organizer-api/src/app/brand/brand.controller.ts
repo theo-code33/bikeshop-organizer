@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
@@ -17,26 +19,61 @@ export class BrandController {
 
   @Post()
   create(@Body() createBrandDto: CreateBrandDto) {
-    return this.brandService.create(createBrandDto);
+    try {
+      return this.brandService.create(createBrandDto);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Get()
   findAll() {
-    return this.brandService.findAll();
+    try {
+      return this.brandService.findAll();
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.brandService.findOne(+id);
+    try {
+      return this.brandService.findOne(id);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBrandDto: UpdateBrandDto) {
-    return this.brandService.update(+id, updateBrandDto);
+    try {
+      return this.brandService.update(id, updateBrandDto);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.brandService.remove(+id);
+    try {
+      return this.brandService.remove(id);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 }
