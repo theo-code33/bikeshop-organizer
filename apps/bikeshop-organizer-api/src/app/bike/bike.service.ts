@@ -36,11 +36,7 @@ export class BikeService {
 
   async update(id: string, updateBikeDto: UpdateBikeDto) {
     await this.bikeRepository.update(id, updateBikeDto);
-    const bike = await this.findOne(id);
-    if (!bike) {
-      throw new HttpException('Bike not found', HttpStatus.NOT_FOUND);
-    }
-    return bike;
+    return await this.findOne(id);
   }
 
   async remove(id: string) {
