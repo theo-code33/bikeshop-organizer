@@ -29,10 +29,10 @@ export class BrandController {
     }
   }
 
-  @Get()
-  findAll() {
+  @Get('/shop/:shopId')
+  findByShop(@Param('shopId') shopId: string) {
     try {
-      return this.brandService.findAll();
+      return this.brandService.findByShop(shopId);
     } catch (error) {
       throw new HttpException(
         error.message,

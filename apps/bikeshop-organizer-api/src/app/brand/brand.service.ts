@@ -14,8 +14,9 @@ export class BrandService {
     return await this.brandRepository.save(createBrandDto);
   }
 
-  async findAll() {
+  async findByShop(shopId: string) {
     return await this.brandRepository.find({
+      where: { shop: { id: shopId } },
       relations: ['shop'],
     });
   }
