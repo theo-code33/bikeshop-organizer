@@ -10,5 +10,4 @@ export class CreateClientDto {
   address: string;
   postalCode: string;
   city: string;
-  bike?: string;
 }
