@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { Common } from '../../common/entities/common.entity';
 import { Client } from '../../client/entities/client.entity';
+import { Brand } from '../../brand/entities/brand.entity';
 
 @Entity()
 export class Shop extends Common {
@@ -28,4 +29,6 @@ export class Shop extends Common {
   clients?: Client[];
   @Column({ nullable: true })
   products?: string; // TODO: create a Product entity
+  @OneToMany(() => Brand, (brand) => brand.shop)
+  brands?: Brand[];
 }
