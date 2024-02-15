@@ -1,6 +1,6 @@
 import { DeepPartial } from 'typeorm';
 import { Client } from '../../client/entities/client.entity';
-import { Brand } from '@bikeshop-organizer/types';
+import { Brand } from '../../brand/entities/brand.entity';
 
 export class CreateBikeDto {
   brand: DeepPartial<Brand>;
