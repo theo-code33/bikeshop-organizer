@@ -17,7 +17,7 @@ export class BrandService {
   async findByShop(shopId: string) {
     return await this.brandRepository.find({
       where: { shop: { id: shopId } },
-      relations: ['shop'],
+      // relations: ['shop'], // TODO: Uncomment this line to include the shop details
     });
   }
 
