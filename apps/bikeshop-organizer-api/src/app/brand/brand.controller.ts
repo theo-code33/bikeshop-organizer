@@ -8,16 +8,25 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { IRequest } from '../auth/types/request.type';
 
 @Controller('brand')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
   @Post()
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
   create(@Body() createBrandDto: CreateBrandDto) {
     try {
       return this.brandService.create(createBrandDto);
@@ -30,9 +39,17 @@ export class BrandController {
   }
 
   @Get('/shop/:shopId')
-  findByShop(@Param('shopId') shopId: string) {
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP, RolesEnum.EMPLOYEE)
+  findByShop(@Param('shopId') shopId: string, @Req() req: IRequest) {
     try {
-      return this.brandService.findByShop(shopId);
+      const { user } = req;
+      if (
+        (user.role === RolesEnum.SHOP && user.shop.id === shopId) ||
+        user.role === RolesEnum.ADMIN
+      ) {
+        return this.brandService.findByShop(shopId);
+      }
+      throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -42,9 +59,18 @@ export class BrandController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP, RolesEnum.EMPLOYEE)
+  findOne(@Param('id') id: string, @Req() req: IRequest) {
     try {
-      return this.brandService.findOne(id);
+      const { user } = req;
+      if (
+        (user.role === RolesEnum.SHOP &&
+          user.shop.brands.some((brand) => brand.id === id)) ||
+        user.role === RolesEnum.ADMIN
+      ) {
+        return this.brandService.findOne(id);
+      }
+      throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -54,9 +80,22 @@ export class BrandController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBrandDto: UpdateBrandDto) {
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
+  update(
+    @Param('id') id: string,
+    @Body() updateBrandDto: UpdateBrandDto,
+    @Req() req: IRequest
+  ) {
     try {
-      return this.brandService.update(id, updateBrandDto);
+      const { user } = req;
+      if (
+        (user.role === RolesEnum.SHOP &&
+          user.shop.brands.some((brand) => brand.id === id)) ||
+        user.role === RolesEnum.ADMIN
+      ) {
+        return this.brandService.update(id, updateBrandDto);
+      }
+      throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -66,9 +105,18 @@ export class BrandController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
+  remove(@Param('id') id: string, @Req() req: IRequest) {
     try {
-      return this.brandService.remove(id);
+      const { user } = req;
+      if (
+        (user.role === RolesEnum.SHOP &&
+          user.shop.brands.some((brand) => brand.id === id)) ||
+        user.role === RolesEnum.ADMIN
+      ) {
+        return this.brandService.remove(id);
+      }
+      throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
     } catch (error) {
       throw new HttpException(
         error.message,
