@@ -7,7 +7,7 @@ import { Common } from '../../common/entities/common.entity';
 export class User extends Common {
   @Column({ unique: true, nullable: false })
   email: string;
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
   @Column({ nullable: false, type: 'enum', enum: Roles, default: Roles.USER })
   role: Roles;

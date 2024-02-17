@@ -24,7 +24,8 @@ export class UserService {
     const { email, password } = loginDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      relations: ['shop', 'shop.clients'],
+      relations: ['shop', 'shop.clients', 'shop.brands'],
+      select: ['id', 'email', 'password', 'role'],
     });
     if (!user) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
@@ -41,7 +42,7 @@ export class UserService {
   async findOne(id: string) {
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['shop', 'shop.clients'],
+      relations: ['shop', 'shop.clients', 'shop.brands'],
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -52,7 +53,7 @@ export class UserService {
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOne({
       where: { email },
-      relations: ['shop', 'shop.clients'],
+      relations: ['shop', 'shop.clients', 'shop.brands'],
     });
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -78,7 +79,7 @@ export class UserService {
     await this.userRepository.update(id, updateUserDto);
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['shop', 'shop.clients'],
+      relations: ['shop', 'shop.clients', 'shop.brands'],
     });
     if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     return this.sanitizeUser(user);
