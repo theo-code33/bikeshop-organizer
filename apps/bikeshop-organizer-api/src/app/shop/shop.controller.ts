@@ -19,17 +19,27 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 import { IRequest } from '../auth/types/request.type';
+import { UserService } from '../user/user.service';
 
 @Controller('shop')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class ShopController {
-  constructor(private readonly shopService: ShopService) {}
+  constructor(
+    private readonly shopService: ShopService,
+    private readonly userService: UserService
+  ) {}
 
   @Post()
-  @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
-  create(@Body() createShopDto: CreateShopDto) {
+  @Roles(RolesEnum.ADMIN)
+  async create(@Body() createShopDto: CreateShopDto) {
     try {
-      return this.shopService.create(createShopDto);
+      const shop = await this.shopService.create(createShopDto);
+      const userData = {
+        role: RolesEnum.SHOP,
+      };
+      const user = await this.userService.update(shop.user.id, userData);
+      shop.user = user;
+      return shop;
     } catch (error) {
       throw new HttpException(
         error.message,
