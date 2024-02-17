@@ -12,7 +12,8 @@ export class ShopService {
     private readonly shopRepository: Repository<Shop>
   ) {}
   async create(createShopDto: CreateShopDto) {
-    const shop = await this.shopRepository.save(createShopDto);
+    const shopCreated = await this.shopRepository.save(createShopDto);
+    const shop = await this.findOne(shopCreated.id);
     return shop;
   }
 
