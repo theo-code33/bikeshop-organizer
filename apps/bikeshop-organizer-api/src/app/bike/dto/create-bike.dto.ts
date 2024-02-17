@@ -1,8 +1,9 @@
 import { DeepPartial } from 'typeorm';
 import { Client } from '../../client/entities/client.entity';
+import { Brand } from '../../brand/entities/brand.entity';
 
 export class CreateBikeDto {
-  brand: string; // TODO: connect to Brand entity => Replace by DeepPartial<Brand>
+  brand: DeepPartial<Brand>;
   model: string;
   bicycode?: string;
   color: string;

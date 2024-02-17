@@ -30,5 +30,5 @@ export class Client extends Common {
   @Column({ nullable: false })
   city: string;
   @OneToMany(() => Bike, (bike) => bike.client)
-  bikes?: string[];
+  bikes?: Bike[];
 }

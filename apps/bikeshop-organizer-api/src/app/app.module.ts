@@ -14,6 +14,8 @@ import { ClientModule } from './client/client.module';
 import { Client } from './client/entities/client.entity';
 import { BikeModule } from './bike/bike.module';
 import { Bike } from './bike/entities/bike.entity';
+import { BrandModule } from './brand/brand.module';
+import { Brand } from './brand/entities/brand.entity';
 
 @Module({
   imports: [
@@ -29,7 +31,7 @@ import { Bike } from './bike/entities/bike.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Shop, Client, Bike],
+      entities: [User, Shop, Client, Bike, Brand],
       synchronize: true,
     }),
     AuthModule,
@@ -38,6 +40,7 @@ import { Bike } from './bike/entities/bike.entity';
     ShopModule,
     ClientModule,
     BikeModule,
+    BrandModule,
   ],
   controllers: [AppController],
   providers: [AppService],

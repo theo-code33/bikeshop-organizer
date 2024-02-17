@@ -1,13 +1,14 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Client } from '../../client/entities/client.entity';
 import { Common } from '../../common/entities/common.entity';
+import { Brand } from '../../brand/entities/brand.entity';
 
 @Entity()
 export class Bike extends Common {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column({ nullable: false })
-  brand: string; // TODO: connect to Brand entity
+  @ManyToOne(() => Brand, (brand) => brand.id)
+  brand: Brand;
   @Column({ nullable: false })
   model: string;
   @Column({ nullable: true })

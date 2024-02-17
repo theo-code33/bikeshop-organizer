@@ -12,14 +12,15 @@ export class ShopService {
     private readonly shopRepository: Repository<Shop>
   ) {}
   async create(createShopDto: CreateShopDto) {
-    const shop = await this.shopRepository.save(createShopDto);
+    const shopCreated = await this.shopRepository.save(createShopDto);
+    const shop = await this.findOne(shopCreated.id);
     return shop;
   }
 
   async findOne(id: string) {
     const shop = await this.shopRepository.findOne({
       where: { id },
-      relations: ['user', 'clients'],
+      relations: ['user', 'clients', 'brands'],
     });
     if (!shop) {
       throw new HttpException('Shop not found', HttpStatus.NOT_FOUND);
