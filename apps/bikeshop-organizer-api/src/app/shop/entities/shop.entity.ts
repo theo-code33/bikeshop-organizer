@@ -8,7 +8,7 @@ import { Brand } from '../../brand/entities/brand.entity';
 export class Shop extends Common {
   @OneToOne(() => User, (user) => user.shop)
   @JoinColumn()
-  user: Omit<User, 'password'>;
+  user: User;
   @Column({ nullable: false })
   name: string;
   @Column({ nullable: false })
