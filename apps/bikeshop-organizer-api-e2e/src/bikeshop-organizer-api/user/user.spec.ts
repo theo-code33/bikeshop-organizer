@@ -7,12 +7,6 @@ describe('User', () => {
   describe('GET /user/:id', () => {
     it('should return a user', async () => {
       try {
-        console.log('process.env.TEST_USER_ID', process.env.TEST_USER_ID);
-        console.log(
-          'process.env.ADMIN_USER_TOKEN',
-          process.env.ADMIN_USER_TOKEN
-        );
-
         const res = await axios.get(`${url}/user/${process.env.TEST_USER_ID}`, {
           headers: {
             Authorization: `Bearer ${process.env.ADMIN_USER_TOKEN}`,

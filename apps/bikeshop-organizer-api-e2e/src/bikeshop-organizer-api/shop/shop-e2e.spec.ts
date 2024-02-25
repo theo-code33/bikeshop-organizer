@@ -47,8 +47,6 @@ describe('e2e Shop', () => {
 
         process.env.TEST_SHOP_ID = res.data.id;
 
-        console.log('process.env.TEST_SHOP_ID', process.env.TEST_SHOP_ID);
-
         expect(res.status).toBe(201);
         expect(res.data).toHaveProperty('id');
         expect(res.data).toHaveProperty('user');
@@ -188,9 +186,6 @@ describe('e2e Shop', () => {
             Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
           },
         });
-
-        console.log('resClient1', resClient1.data.shop);
-        console.log('resClient2', resClient2.data.shop);
 
         process.env.TEST_CLIENT_ID = resClient1.data.id;
         process.env.TEST_CLIENT_ID_2 = resClient2.data.id;

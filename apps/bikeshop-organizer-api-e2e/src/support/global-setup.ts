@@ -47,8 +47,6 @@ module.exports = async function () {
       password: process.env.TEST_USER_PASSWORD_2,
     })
     .then((res) => {
-      console.log('res.data', res.data);
-
       process.env.TEST_USER_ID_2 = res.data.user.id;
       process.env.TEST_USER_TOKEN_2 = res.data.token;
       console.log('✅ Test user 2 correctly registered');
