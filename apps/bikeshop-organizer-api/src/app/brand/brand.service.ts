@@ -11,7 +11,9 @@ export class BrandService {
     @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>
   ) {}
   async create(createBrandDto: CreateBrandDto) {
-    return await this.brandRepository.save(createBrandDto);
+    const brandCreated = await this.brandRepository.save(createBrandDto);
+    const brand = await this.findOne(brandCreated.id);
+    return brand;
   }
 
   async findByShop(shopId: string) {

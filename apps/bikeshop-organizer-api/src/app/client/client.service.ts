@@ -12,7 +12,9 @@ export class ClientService {
     private readonly clientRepository: Repository<Client>
   ) {}
   async create(createClientDto: CreateClientDto) {
-    return await this.clientRepository.save(createClientDto);
+    const clientCreated = await this.clientRepository.save(createClientDto);
+    const client = await this.findOne(clientCreated.id);
+    return client;
   }
 
   async findAllByShop(shopId: string) {

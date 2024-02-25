@@ -63,6 +63,11 @@ export class BrandController {
   findOne(@Param('id') id: string, @Req() req: IRequest) {
     try {
       const { user } = req;
+      const s = user.shop.brands.some((brand) => brand.id === id);
+      console.log('some', s);
+      console.log('user', user.shop.brands);
+      console.log('id', id);
+
       if (
         (user.role === RolesEnum.SHOP &&
           user.shop.brands.some((brand) => brand.id === id)) ||

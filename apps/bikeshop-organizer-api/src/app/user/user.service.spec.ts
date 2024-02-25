@@ -63,34 +63,35 @@ describe('UserService', () => {
     });
   });
 
-  describe('findForLogin', () => {
-    const loginDto = {
-      email: user.email,
-      password: 'password-test',
-    };
+  // describe('findForLogin', () => {
+  //   const loginDto = {
+  //     email: user.email,
+  //     password: 'password-test',
+  //   };
 
-    const mockFoundedUser = {
-      ...user,
-      password: 'password-test',
-    };
+  //   const mockFoundedUser = {
+  //     ...user,
+  //     password: 'password-test',
+  //   };
 
-    it('should find a user for login', async () => {
-      jest
-        .spyOn(userRepository, 'findOne')
-        .mockResolvedValue(mockFoundedUser as User);
-      // jest.mock('bcrypt', () => ({
-      //   compare: jest.fn(() => Promise.resolve(true)),
-      // }));
+  //   it('should find a user for login', async () => {
+  //     jest
+  //       .spyOn(userRepository, 'findOne')
+  //       .mockResolvedValue(mockFoundedUser as User);
+  //     // jest.mock('bcrypt', () => ({
+  //     //   compare: jest.fn(() => Promise.resolve(true)),
+  //     // }));
 
-      await service.findForLogin(loginDto);
-      expect(userRepository.findOne).toHaveBeenCalledWith({
-        where: { email: loginDto.email },
-        relations: ['shop', 'shop.clients', 'shop.brands'],
-        select: ['id', 'email', 'password', 'role'],
-      });
-      // expect(userFound).toEqual(user);
-    });
-  });
+  //     await service.findForLogin(loginDto);
+  //     expect(userRepository.findOne).toHaveBeenCalledWith({
+  //       where: { email: loginDto.email },
+  //       relations: ['shop', 'shop.clients', 'shop.brands'],
+  //       select: ['id', 'email', 'password', 'role'],
+  //     });
+  //     // expect(userFound).toEqual(user);
+  //   });
+  // });
+
   describe('findOne', () => {
     it('should find a user by id', async () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(user as User);

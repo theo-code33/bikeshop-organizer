@@ -13,7 +13,9 @@ export class BikeService {
   ) {}
 
   async create(createBikeDto: CreateBikeDto) {
-    return await this.bikeRepository.save(createBikeDto);
+    const bikeCreated = await this.bikeRepository.save(createBikeDto);
+    const bike = await this.findOne(bikeCreated.id);
+    return bike;
   }
 
   async findAllByClient(clientId: string) {

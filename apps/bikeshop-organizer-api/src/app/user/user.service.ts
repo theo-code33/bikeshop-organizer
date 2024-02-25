@@ -31,7 +31,6 @@ export class UserService {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
     const passwordValid = await bcrypt.compare(password, user.password);
-    console.log(passwordValid);
 
     if (passwordValid) {
       return this.sanitizeUser(user);
