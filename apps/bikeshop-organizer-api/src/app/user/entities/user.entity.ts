@@ -8,7 +8,7 @@ export class User extends Common {
   @Column({ unique: true, nullable: false })
   email: string;
   @Column({ nullable: false, select: false })
-  password: string;
+  password?: string;
   @Column({ nullable: false, type: 'enum', enum: Roles, default: Roles.USER })
   role: Roles;
   @Column({ nullable: true })

@@ -90,6 +90,7 @@ export class UserService {
   }
 
   sanitizeUser(user: User): UserInterface {
+    if (!user) return null;
     const sanitized = user;
     delete sanitized.password;
     return sanitized;

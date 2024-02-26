@@ -13,20 +13,22 @@ export class BikeService {
   ) {}
 
   async create(createBikeDto: CreateBikeDto) {
-    return await this.bikeRepository.save(createBikeDto);
+    const bikeCreated = await this.bikeRepository.save(createBikeDto);
+    const bike = await this.findOne(bikeCreated.id);
+    return bike;
   }
 
   async findAllByClient(clientId: string) {
     return await this.bikeRepository.find({
       where: { client: { id: clientId } },
-      relations: ['client'],
+      relations: ['client', 'brand'],
     });
   }
 
   async findOne(id: string) {
     const bike = await this.bikeRepository.findOne({
       where: { id },
-      relations: ['client'],
+      relations: ['client', 'brand'],
     });
     if (!bike) {
       throw new HttpException('Bike not found', HttpStatus.NOT_FOUND);

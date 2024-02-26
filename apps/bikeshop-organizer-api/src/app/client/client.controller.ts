@@ -44,7 +44,7 @@ export class ClientController {
     try {
       const { user } = req;
       if (
-        (user.role === RolesEnum.SHOP && user.id === shopId) ||
+        (user.role === RolesEnum.SHOP && user.shop.id === shopId) ||
         user.role === RolesEnum.ADMIN
       ) {
         return this.clientService.findAllByShop(shopId);
@@ -64,7 +64,7 @@ export class ClientController {
     try {
       const { user } = req;
       const client = await this.clientService.findOne(id);
-      if (user.role === RolesEnum.SHOP && user.id !== client.shop.id) {
+      if (user.role === RolesEnum.SHOP && user.shop.id !== client.shop.id) {
         throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
       }
       return client;

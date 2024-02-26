@@ -70,9 +70,9 @@ export class ShopController {
   ) {
     try {
       const { user } = req;
-      if (user.role !== RolesEnum.ADMIN) {
+      if (user.role === RolesEnum.ADMIN || user.role === RolesEnum.SHOP) {
         const shop = await this.shopService.findOne(id);
-        if (user.id !== shop.user.id) {
+        if (user.id !== shop.user.id && user.role !== RolesEnum.ADMIN) {
           throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
         }
       }
