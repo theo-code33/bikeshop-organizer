@@ -90,6 +90,7 @@ describe('BikeService', () => {
     };
     it('should create a bike', async () => {
       jest.spyOn(bikeRepository, 'save').mockResolvedValue(bike as Bike);
+      jest.spyOn(bikeRepository, 'findOne').mockResolvedValue(bike as Bike);
 
       const bikeCreated = await service.create(createBikeDto);
       expect(bikeRepository.save).toHaveBeenCalledWith(createBikeDto);

@@ -77,6 +77,7 @@ describe('BrandService', () => {
     };
     it('should create a brand', async () => {
       jest.spyOn(brandRepository, 'save').mockResolvedValue(brand as Brand);
+      jest.spyOn(brandRepository, 'findOne').mockResolvedValue(brand as Brand);
 
       const brandCreated = await service.create(createBrandDto);
       expect(brandRepository.save).toHaveBeenCalledWith(createBrandDto);

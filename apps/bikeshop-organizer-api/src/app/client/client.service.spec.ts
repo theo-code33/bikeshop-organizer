@@ -87,6 +87,9 @@ describe('ClientService', () => {
     };
     it('should create a client', async () => {
       jest.spyOn(serviceRepository, 'save').mockResolvedValue(client as Client);
+      jest
+        .spyOn(serviceRepository, 'findOne')
+        .mockResolvedValue(client as Client);
 
       const clientCreated = await service.create(createClientDto);
       expect(serviceRepository.save).toHaveBeenCalledWith(createClientDto);
