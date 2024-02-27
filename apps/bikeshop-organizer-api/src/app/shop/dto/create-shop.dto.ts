@@ -11,7 +11,6 @@ export class CreateShopDto {
   city: string;
   email: string;
   phoneNumber: string;
-  taskCategories?: string;
   clients?: Client[];
   products?: string;
 }

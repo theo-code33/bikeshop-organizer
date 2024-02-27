@@ -532,6 +532,130 @@ describe('e2e Shop', () => {
     });
   });
 
+  describe('POST /task-category', () => {
+    it('should create a task category', async () => {
+      const createTaskCategoryDto = {
+        name: 'task category-1',
+        shop: process.env.TEST_SHOP_ID,
+        taskCategoryStatus: 'taskCategoryStatus', // TODO: create taskCategoryStatus
+        tasks: 'tasks', // TODO: create tasks
+      };
+      try {
+        const res = await axios.post(
+          `${url}/task-category`,
+          createTaskCategoryDto,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        process.env.TEST_TASK_CATEGORY_ID = res.data.id;
+
+        expect(res.status).toBe(201);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(createTaskCategoryDto.shop);
+        expect(res.data.name).toBe(createTaskCategoryDto.name);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /task-category/shop/:shopId', () => {
+    it('should return task categories by shop id', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/task-category/shop/${process.env.TEST_SHOP_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+        expect(res.status).toBe(200);
+        expect(res.data).toBeInstanceOf(Array);
+        expect(res.data).toHaveLength(1);
+        expect(res.data[0]).toHaveProperty('id');
+        expect(res.data[0].id).toBe(process.env.TEST_TASK_CATEGORY_ID);
+        expect(res.data[0]).toHaveProperty('shop');
+        expect(res.data[0].shop.id).toBe(process.env.TEST_SHOP_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /task-category/:id', () => {
+    it('should return a task category', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/task-category/${process.env.TEST_TASK_CATEGORY_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_TASK_CATEGORY_ID);
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(process.env.TEST_SHOP_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+    it('should return a 403 error', async () => {
+      try {
+        await axios.get(
+          `${url}/task-category/2c631dd2-f643-4c10-b500-6f82e14a6a1a`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+        expect(error.response.data).toHaveProperty('message');
+        expect(error.response.data.message).toEqual('TaskCategory not found');
+      }
+    });
+  });
+
+  describe('PATCH /task-category/:id', () => {
+    it('should update a task category', async () => {
+      try {
+        const res = await axios.patch(
+          `${url}/task-category/${process.env.TEST_TASK_CATEGORY_ID}`,
+          { name: 'new name' },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_TASK_CATEGORY_ID);
+        expect(res.data.name).toBe('new name');
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(process.env.TEST_SHOP_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
   it('should shop have all clients, brands', async () => {
     try {
       const res = await axios.get(`${url}/shop/${process.env.TEST_SHOP_ID}`, {
@@ -549,10 +673,35 @@ describe('e2e Shop', () => {
       expect(res.data).toHaveProperty('brands');
       expect(res.data.brands).toBeInstanceOf(Array);
       expect(res.data.brands).toHaveLength(1);
+      expect(res.data).toHaveProperty('taskCategories');
+      expect(res.data.taskCategories).toBeInstanceOf(Array);
+      expect(res.data.taskCategories).toHaveLength(1);
     } catch (error) {
       console.error(error);
       expect(error).toBeUndefined();
     }
+  });
+
+  describe('DELETE /task-category/:id', () => {
+    it('should delete a task category', async () => {
+      try {
+        const res = await axios.delete(
+          `${url}/task-category/${process.env.TEST_TASK_CATEGORY_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
   });
 
   describe('DELETE /bike/:id', () => {
@@ -569,6 +718,7 @@ describe('e2e Shop', () => {
 
         expect(res.status).toBe(200);
         expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
       } catch (error) {
         console.error(error);
         expect(error).toBeUndefined();
@@ -590,6 +740,7 @@ describe('e2e Shop', () => {
 
         expect(res.status).toBe(200);
         expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
       } catch (error) {
         console.error(error);
         expect(error).toBeUndefined();
@@ -642,6 +793,7 @@ describe('e2e Shop', () => {
 
         expect(res.status).toBe(200);
         expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
       } catch (error) {
         console.error(error);
         expect(error).toBeUndefined();

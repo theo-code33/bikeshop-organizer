@@ -16,6 +16,8 @@ import { BikeModule } from './bike/bike.module';
 import { Bike } from './bike/entities/bike.entity';
 import { BrandModule } from './brand/brand.module';
 import { Brand } from './brand/entities/brand.entity';
+import { TaskCategoryModule } from './task-category/task-category.module';
+import { TaskCategory } from './task-category/entities/task-category.entity';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import { Brand } from './brand/entities/brand.entity';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Shop, Client, Bike, Brand],
+      entities: [User, Shop, Client, Bike, Brand, TaskCategory],
       synchronize: true,
     }),
     AuthModule,
@@ -41,6 +43,7 @@ import { Brand } from './brand/entities/brand.entity';
     ClientModule,
     BikeModule,
     BrandModule,
+    TaskCategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
