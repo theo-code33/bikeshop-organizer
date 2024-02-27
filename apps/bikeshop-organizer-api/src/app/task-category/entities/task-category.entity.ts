@@ -4,7 +4,7 @@ import { Common } from '../../common/entities/common.entity';
 
 @Entity()
 export class TaskCategory extends Common {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column({ nullable: false })
   name: string;
