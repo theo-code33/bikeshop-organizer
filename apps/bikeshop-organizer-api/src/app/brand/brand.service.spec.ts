@@ -31,7 +31,6 @@ describe('BrandService', () => {
     city: 'Paris',
     email: 'shop-test@test.com',
     phoneNumber: '0123456789',
-    taskCategories: 'taskCategories-test',
     clients: [],
     brands: [],
     createdAt: new Date('2024-02-20T08:59:56.066Z'),

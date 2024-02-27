@@ -10,7 +10,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 
 describe('ClientService', () => {
   let service: ClientService;
-  let serviceRepository: Repository<Client>;
+  let clientRepository: Repository<Client>;
 
   const REPOSITORY_CLIENT_TOKEN = getRepositoryToken(Client);
   const mockClientRepository = {
@@ -30,7 +30,6 @@ describe('ClientService', () => {
     city: 'Paris',
     email: 'shop-test@test.com',
     phoneNumber: '0123456789',
-    taskCategories: 'taskCategories-test',
     clients: [],
     brands: [],
     createdAt: new Date('2024-02-20T08:59:56.066Z'),
@@ -64,14 +63,14 @@ describe('ClientService', () => {
     }).compile();
 
     service = module.get<ClientService>(ClientService);
-    serviceRepository = module.get<Repository<Client>>(REPOSITORY_CLIENT_TOKEN);
+    clientRepository = module.get<Repository<Client>>(REPOSITORY_CLIENT_TOKEN);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
   it('should client repository be defined', () => {
-    expect(serviceRepository).toBeDefined();
+    expect(clientRepository).toBeDefined();
   });
 
   describe('createClient', () => {
@@ -86,13 +85,13 @@ describe('ClientService', () => {
       city: client.city,
     };
     it('should create a client', async () => {
-      jest.spyOn(serviceRepository, 'save').mockResolvedValue(client as Client);
+      jest.spyOn(clientRepository, 'save').mockResolvedValue(client as Client);
       jest
-        .spyOn(serviceRepository, 'findOne')
+        .spyOn(clientRepository, 'findOne')
         .mockResolvedValue(client as Client);
 
       const clientCreated = await service.create(createClientDto);
-      expect(serviceRepository.save).toHaveBeenCalledWith(createClientDto);
+      expect(clientRepository.save).toHaveBeenCalledWith(createClientDto);
       expect(clientCreated).toEqual(client);
     });
   });
@@ -100,11 +99,11 @@ describe('ClientService', () => {
   describe('findAllByShop', () => {
     it('should find all clients by shop', async () => {
       jest
-        .spyOn(serviceRepository, 'find')
+        .spyOn(clientRepository, 'find')
         .mockResolvedValue([client] as Client[]);
 
       const clients = await service.findAllByShop(shop.id);
-      expect(serviceRepository.find).toHaveBeenCalledWith({
+      expect(clientRepository.find).toHaveBeenCalledWith({
         where: { shop: { id: shop.id } },
         relations: ['shop', 'bikes'],
       });
@@ -115,11 +114,11 @@ describe('ClientService', () => {
   describe('findOne', () => {
     it('should find a client', async () => {
       jest
-        .spyOn(serviceRepository, 'findOne')
+        .spyOn(clientRepository, 'findOne')
         .mockResolvedValue(client as Client);
 
       const clientFound = await service.findOne(client.id);
-      expect(serviceRepository.findOne).toHaveBeenCalledWith({
+      expect(clientRepository.findOne).toHaveBeenCalledWith({
         where: { id: client.id },
         relations: ['shop', 'bikes'],
       });
@@ -136,18 +135,18 @@ describe('ClientService', () => {
       firstName: updateClientDto.firstName,
     };
     it('should update a client', async () => {
-      jest.spyOn(serviceRepository, 'update').mockResolvedValue(undefined);
-      jest.spyOn(serviceRepository, 'findOne').mockResolvedValue(clientUpdated);
+      jest.spyOn(clientRepository, 'update').mockResolvedValue(undefined);
+      jest.spyOn(clientRepository, 'findOne').mockResolvedValue(clientUpdated);
 
       const clientUpdatedFound = await service.update(
         client.id,
         updateClientDto
       );
-      expect(serviceRepository.update).toHaveBeenCalledWith(
+      expect(clientRepository.update).toHaveBeenCalledWith(
         client.id,
         updateClientDto
       );
-      expect(serviceRepository.findOne).toHaveBeenCalledWith({
+      expect(clientRepository.findOne).toHaveBeenCalledWith({
         where: { id: client.id },
         relations: ['shop', 'bikes'],
       });
@@ -158,7 +157,7 @@ describe('ClientService', () => {
   describe('remove', () => {
     it('should delete a client', async () => {
       await service.remove(client.id);
-      expect(serviceRepository.delete).toHaveBeenCalledWith(client.id);
+      expect(clientRepository.delete).toHaveBeenCalledWith(client.id);
     });
   });
 });

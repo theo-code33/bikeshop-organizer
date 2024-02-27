@@ -37,7 +37,6 @@ describe('ShopService', () => {
     city: 'Paris',
     email: 'shop-test@test.com',
     phoneNumber: '0123456789',
-    taskCategories: 'taskCategories-test',
     clients: [],
     brands: [],
     createdAt: new Date('2024-02-20T08:59:56.066Z'),
@@ -78,7 +77,6 @@ describe('ShopService', () => {
       city: shop.city,
       email: shop.email,
       phoneNumber: shop.phoneNumber,
-      taskCategories: shop.taskCategories,
     };
     it('should create a shop', async () => {
       jest.spyOn(shopRepository, 'save').mockResolvedValue(shop as Shop);

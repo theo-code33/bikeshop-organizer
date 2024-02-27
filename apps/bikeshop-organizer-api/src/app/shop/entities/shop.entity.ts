@@ -3,6 +3,7 @@ import { User } from '../../user/entities/user.entity';
 import { Common } from '../../common/entities/common.entity';
 import { Client } from '../../client/entities/client.entity';
 import { Brand } from '../../brand/entities/brand.entity';
+import { TaskCategory } from '../../task-category/entities/task-category.entity';
 
 @Entity()
 export class Shop extends Common {
@@ -23,8 +24,8 @@ export class Shop extends Common {
   email: string;
   @Column({ nullable: false })
   phoneNumber: string;
-  @Column({ nullable: true })
-  taskCategories?: string; // TODO: create a TaskCategory entity
+  @OneToMany(() => TaskCategory, (taskCategory) => taskCategory.shop)
+  taskCategories?: TaskCategory[];
   @OneToMany(() => Client, (client) => client.shop)
   clients?: Client[];
   @Column({ nullable: true })
