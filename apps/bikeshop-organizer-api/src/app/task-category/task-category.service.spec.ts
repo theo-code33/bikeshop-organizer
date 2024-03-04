@@ -40,7 +40,6 @@ describe('TaskCategoryService', () => {
     id: '1',
     name: 'Brakes',
     shop: shop,
-    taskCategoryStatus: 'taskCategoryStatus',
     tasks: 'tasks',
     createdAt: new Date('2024-02-20T08:59:56.066Z'),
     updatedAt: new Date('2024-02-20T08:59:56.066Z'),
@@ -75,7 +74,6 @@ describe('TaskCategoryService', () => {
     const createTaskCategoryDto: CreateTaskCategoryDto = {
       name: 'Brakes',
       shop: { id: '1' },
-      taskCategoryStatus: 'taskCategoryStatus',
       tasks: 'tasks',
     };
     it('should create a task category', async () => {

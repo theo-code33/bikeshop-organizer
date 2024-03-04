@@ -537,7 +537,6 @@ describe('e2e Shop', () => {
       const createTaskCategoryDto = {
         name: 'task category-1',
         shop: process.env.TEST_SHOP_ID,
-        taskCategoryStatus: 'taskCategoryStatus', // TODO: create taskCategoryStatus
         tasks: 'tasks', // TODO: create tasks
       };
       try {
@@ -612,7 +611,7 @@ describe('e2e Shop', () => {
         expect(error).toBeUndefined();
       }
     });
-    it('should return a 403 error', async () => {
+    it('should return a 404 error', async () => {
       try {
         await axios.get(
           `${url}/task-category/2c631dd2-f643-4c10-b500-6f82e14a6a1a`,
@@ -680,6 +679,161 @@ describe('e2e Shop', () => {
       console.error(error);
       expect(error).toBeUndefined();
     }
+  });
+
+  describe('POST /task-category-status', () => {
+    it('should create a task category status', async () => {
+      const createTaskCategoryStatusDto = {
+        status: 'status-1', // TODO: create status
+        order: 1,
+        taskCategory: process.env.TEST_TASK_CATEGORY_ID,
+      };
+      try {
+        const res = await axios.post(
+          `${url}/task-category-status`,
+          createTaskCategoryStatusDto,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        process.env.TEST_TASK_CATEGORY_STATUS_ID = res.data.id;
+
+        expect(res.status).toBe(201);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.status).toBe(createTaskCategoryStatusDto.status); // TODO: replace by expect status.id
+        expect(res.data.taskCategory.id).toBe(
+          createTaskCategoryStatusDto.taskCategory
+        );
+        expect(res.data.order).toBe(createTaskCategoryStatusDto.order);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /task-category-status/task-category/:taskCategoryId', () => {
+    it('should return task category status by task category id', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/task-category-status/task-category/${process.env.TEST_TASK_CATEGORY_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toBeInstanceOf(Array);
+        expect(res.data).toHaveLength(1);
+        expect(res.data[0]).toHaveProperty('id');
+        expect(res.data[0].id).toBe(process.env.TEST_TASK_CATEGORY_STATUS_ID);
+        expect(res.data[0]).toHaveProperty('status');
+        expect(res.data[0]).toHaveProperty('taskCategory');
+        expect(res.data[0].taskCategory.id).toBe(
+          process.env.TEST_TASK_CATEGORY_ID
+        );
+        expect(res.data[0]).toHaveProperty('order');
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /task-category-status/:id', () => {
+    it('should return a task category status', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/task-category-status/${process.env.TEST_TASK_CATEGORY_STATUS_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_TASK_CATEGORY_STATUS_ID);
+        expect(res.data).toHaveProperty('status');
+        expect(res.data).toHaveProperty('taskCategory');
+        expect(res.data.taskCategory.id).toBe(
+          process.env.TEST_TASK_CATEGORY_ID
+        );
+        expect(res.data).toHaveProperty('order');
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+    it('should return a 404 error', async () => {
+      try {
+        await axios.get(
+          `${url}/task-category-status/2c631dd2-f643-4c10-b500-6f82e14a6a1a`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+        expect(error.response.data).toHaveProperty('message');
+        expect(error.response.data.message).toEqual(
+          'TaskCategoryStatus not found'
+        );
+      }
+    });
+  });
+
+  describe('PATCH /task-category-status/:id', () => {
+    it('should update a task category status', async () => {
+      try {
+        const res = await axios.patch(
+          `${url}/task-category-status/${process.env.TEST_TASK_CATEGORY_STATUS_ID}`,
+          { order: 2 },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_TASK_CATEGORY_STATUS_ID);
+        expect(res.data.order).toBe(2);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('DELETE /task-category-status/:id', () => {
+    it('should delete a task category status', async () => {
+      try {
+        const res = await axios.delete(
+          `${url}/task-category-status/${process.env.TEST_TASK_CATEGORY_STATUS_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
   });
 
   describe('DELETE /task-category/:id', () => {
