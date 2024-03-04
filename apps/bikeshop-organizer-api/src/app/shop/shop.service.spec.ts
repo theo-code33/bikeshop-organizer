@@ -86,7 +86,7 @@ describe('ShopService', () => {
       expect(shopRepository.save).toHaveBeenCalledWith(createShopDto);
       expect(shopRepository.findOne).toHaveBeenCalledWith({
         where: { id: shop.id },
-        relations: ['user', 'clients', 'brands'],
+        relations: ['user', 'clients', 'brands', 'taskCategories'],
       });
       expect(shopCreated).toEqual(shop);
     });
@@ -99,7 +99,7 @@ describe('ShopService', () => {
       const shopFound = await service.findOne(shop.id);
       expect(shopRepository.findOne).toHaveBeenCalledWith({
         where: { id: shop.id },
-        relations: ['user', 'clients', 'brands'],
+        relations: ['user', 'clients', 'brands', 'taskCategories'],
       });
       expect(shopFound).toEqual(shop);
     });
@@ -120,7 +120,7 @@ describe('ShopService', () => {
       );
       expect(shopRepository.findOne).toHaveBeenCalledWith({
         where: { id: shop.id },
-        relations: ['user', 'clients', 'brands'],
+        relations: ['user', 'clients', 'brands', 'taskCategories'],
       });
       expect(shopUpdated).toEqual(shop);
     });
