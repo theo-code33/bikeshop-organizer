@@ -4,6 +4,7 @@ import { Common } from '../../common/entities/common.entity';
 import { Client } from '../../client/entities/client.entity';
 import { Brand } from '../../brand/entities/brand.entity';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
+import { Status } from '../../status/entities/status.entity';
 
 @Entity()
 export class Shop extends Common {
@@ -32,4 +33,6 @@ export class Shop extends Common {
   products?: string; // TODO: create a Product entity
   @OneToMany(() => Brand, (brand) => brand.shop)
   brands?: Brand[];
+  @OneToMany(() => Status, (status) => status.shop)
+  status?: Status[];
 }

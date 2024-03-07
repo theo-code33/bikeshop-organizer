@@ -21,14 +21,14 @@ export class TaskCategoryStatusService {
   async findAllByTaskCategory(taskCategoryId: string) {
     return await this.taskCategoryStatusRepository.find({
       where: { taskCategory: { id: taskCategoryId } },
-      relations: ['taskCategory'],
+      relations: ['taskCategory', 'status'],
     });
   }
 
   async findOne(id: string) {
     const taskCategoryStatus = await this.taskCategoryStatusRepository.findOne({
       where: { id },
-      relations: ['taskCategory'],
+      relations: ['taskCategory', 'status'],
     });
     if (!taskCategoryStatus) {
       throw new HttpException(
@@ -51,7 +51,7 @@ export class TaskCategoryStatusService {
     return taskCategoryStatus;
   }
 
-  remove(id: string) {
-    return this.taskCategoryStatusRepository.delete(id);
+  async remove(id: string) {
+    return await this.taskCategoryStatusRepository.delete(id);
   }
 }

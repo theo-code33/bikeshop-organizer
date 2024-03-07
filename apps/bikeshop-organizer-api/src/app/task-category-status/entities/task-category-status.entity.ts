@@ -1,13 +1,14 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
 import { Common } from '../../common/entities/common.entity';
+import { Status } from '../../status/entities/status.entity';
 
 @Entity()
 export class TaskCategoryStatus extends Common {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column({ nullable: false })
-  status: string; // TODO: create a Status entity
+  @ManyToOne(() => Status, (status) => status.taskCategoryStatus)
+  status: Status;
   @Column({ nullable: false })
   order: number;
   @ManyToOne(
