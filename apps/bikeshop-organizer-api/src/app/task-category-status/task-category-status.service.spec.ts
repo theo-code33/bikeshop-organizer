@@ -5,6 +5,7 @@ import { TaskCategoryStatus } from './entities/task-category-status.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TaskCategory } from '../task-category/entities/task-category.entity';
 import { CreateTaskCategoryStatusDto } from './dto/create-task-category-status.dto';
+import { Status } from '../status/entities/status.entity';
 
 describe('TaskCategoryStatusService', () => {
   let service: TaskCategoryStatusService;
@@ -22,7 +23,7 @@ describe('TaskCategoryStatusService', () => {
 
   const taskCategoryStatus: TaskCategoryStatus = {
     id: '1',
-    status: 'To do',
+    status: {} as unknown as Status,
     order: 1,
     taskCategory: {} as unknown as TaskCategory,
     tasks: 'tasks',
@@ -57,7 +58,7 @@ describe('TaskCategoryStatusService', () => {
 
   describe('createTaskCategoryStatus', () => {
     const createTaskCategoryStatusDto: CreateTaskCategoryStatusDto = {
-      status: 'To do',
+      status: {} as unknown as Status,
       order: 1,
       taskCategory: {} as unknown as TaskCategory,
     };
@@ -77,7 +78,7 @@ describe('TaskCategoryStatusService', () => {
       );
       expect(taskCategoryStatusRepository.findOne).toHaveBeenCalledWith({
         where: { id: taskCategoryStatus.id },
-        relations: ['taskCategory'],
+        relations: ['taskCategory', 'status'],
       });
       expect(taskCategoryStatusCreated).toEqual(taskCategoryStatus);
     });
@@ -94,7 +95,7 @@ describe('TaskCategoryStatusService', () => {
       );
       expect(taskCategoryStatusRepository.find).toHaveBeenCalledWith({
         where: { taskCategory: taskCategoryStatus.taskCategory },
-        relations: ['taskCategory'],
+        relations: ['taskCategory', 'status'],
       });
       expect(taskCategoryStatusFound).toEqual([taskCategoryStatus]);
     });
@@ -111,7 +112,7 @@ describe('TaskCategoryStatusService', () => {
       );
       expect(taskCategoryStatusRepository.findOne).toHaveBeenCalledWith({
         where: { id: taskCategoryStatus.id },
-        relations: ['taskCategory'],
+        relations: ['taskCategory', 'status'],
       });
       expect(taskCategoryStatusFound).toEqual(taskCategoryStatus);
     });
@@ -124,27 +125,27 @@ describe('TaskCategoryStatusService', () => {
         .mockResolvedValue(undefined);
       jest
         .spyOn(taskCategoryStatusRepository, 'findOne')
-        .mockResolvedValue({ ...taskCategoryStatus, status: 'Done' });
+        .mockResolvedValue({ ...taskCategoryStatus, order: 2 });
 
       const taskCategoryStatusUpdated = await service.update(
         taskCategoryStatus.id,
         {
-          status: 'Done',
+          order: 2,
         }
       );
       expect(taskCategoryStatusRepository.update).toHaveBeenCalledWith(
         taskCategoryStatus.id,
         {
-          status: 'Done',
+          order: 2,
         }
       );
       expect(taskCategoryStatusRepository.findOne).toHaveBeenCalledWith({
         where: { id: taskCategoryStatus.id },
-        relations: ['taskCategory'],
+        relations: ['taskCategory', 'status'],
       });
       expect(taskCategoryStatusUpdated).toEqual({
         ...taskCategoryStatus,
-        status: 'Done',
+        order: 2,
       });
     });
   });

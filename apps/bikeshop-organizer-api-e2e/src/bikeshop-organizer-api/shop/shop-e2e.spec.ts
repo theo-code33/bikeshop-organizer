@@ -681,10 +681,125 @@ describe('e2e Shop', () => {
     }
   });
 
+  describe('POST /status', () => {
+    it('should create a status', async () => {
+      const createStatusDto = {
+        name: 'status-1',
+        description: 'description-1',
+        color: '#OOFFOO',
+        shop: process.env.TEST_SHOP_ID,
+      };
+      try {
+        const res = await axios.post(`${url}/status`, createStatusDto, {
+          headers: {
+            Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+          },
+        });
+
+        process.env.TEST_STATUS_ID = res.data.id;
+
+        expect(res.status).toBe(201);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(createStatusDto.shop);
+        expect(res.data.name).toBe(createStatusDto.name);
+        expect(res.data.description).toBe(createStatusDto.description);
+        expect(res.data.color).toBe(createStatusDto.color);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /status/shop/:shopId', () => {
+    it('should return status of shop', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/status/shop/${process.env.TEST_SHOP_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toBeInstanceOf(Array);
+        expect(res.data).toHaveLength(1);
+        expect(res.data[0]).toHaveProperty('id');
+        expect(res.data[0].id).toBe(process.env.TEST_STATUS_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /status/:id', () => {
+    it('should return a status', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/status/${process.env.TEST_STATUS_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_STATUS_ID);
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(process.env.TEST_SHOP_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+    it('should return a 404 error', async () => {
+      try {
+        await axios.get(`${url}/status/2c631dd2-f643-4c10-b500-6f82e14a6a1a`, {
+          headers: {
+            Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+          },
+        });
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+        expect(error.response.data).toHaveProperty('message');
+        expect(error.response.data.message).toEqual('Status not found');
+      }
+    });
+  });
+
+  describe('PATCH /status/:id', () => {
+    it('should update a status', async () => {
+      try {
+        const res = await axios.patch(
+          `${url}/status/${process.env.TEST_STATUS_ID}`,
+          { name: 'new name' },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_STATUS_ID);
+        expect(res.data.name).toBe('new name');
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
   describe('POST /task-category-status', () => {
     it('should create a task category status', async () => {
       const createTaskCategoryStatusDto = {
-        status: 'status-1', // TODO: create status
+        status: process.env.TEST_STATUS_ID,
         order: 1,
         taskCategory: process.env.TEST_TASK_CATEGORY_ID,
       };
@@ -703,11 +818,38 @@ describe('e2e Shop', () => {
 
         expect(res.status).toBe(201);
         expect(res.data).toHaveProperty('id');
-        expect(res.data.status).toBe(createTaskCategoryStatusDto.status); // TODO: replace by expect status.id
+        expect(res.data.status.id).toBe(createTaskCategoryStatusDto.status);
         expect(res.data.taskCategory.id).toBe(
           createTaskCategoryStatusDto.taskCategory
         );
         expect(res.data.order).toBe(createTaskCategoryStatusDto.order);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /status/task-category-status/:taskCategoryStatusId', () => {
+    it('should return status by task category status id', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/status/task-category-status/${process.env.TEST_TASK_CATEGORY_STATUS_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        console.log(res.data);
+
+        expect(res.status).toBe(200);
+        expect(res.data[0]).toHaveProperty('id');
+        expect(res.data[0].id).toBe(process.env.TEST_STATUS_ID);
+        expect(res.data[0].taskCategoryStatus[0].id).toBe(
+          process.env.TEST_TASK_CATEGORY_STATUS_ID
+        );
       } catch (error) {
         console.error(error);
         expect(error).toBeUndefined();
@@ -819,6 +961,28 @@ describe('e2e Shop', () => {
       try {
         const res = await axios.delete(
           `${url}/task-category-status/${process.env.TEST_TASK_CATEGORY_STATUS_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('DELETE /status/:id', () => {
+    it('should delete a status', async () => {
+      try {
+        const res = await axios.delete(
+          `${url}/status/${process.env.TEST_STATUS_ID}`,
           {
             headers: {
               Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,

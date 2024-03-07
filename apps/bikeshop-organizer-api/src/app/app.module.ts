@@ -20,6 +20,8 @@ import { TaskCategoryModule } from './task-category/task-category.module';
 import { TaskCategory } from './task-category/entities/task-category.entity';
 import { TaskCategoryStatusModule } from './task-category-status/task-category-status.module';
 import { TaskCategoryStatus } from './task-category-status/entities/task-category-status.entity';
+import { StatusModule } from './status/status.module';
+import { Status } from './status/entities/status.entity';
 
 @Module({
   imports: [
@@ -43,6 +45,7 @@ import { TaskCategoryStatus } from './task-category-status/entities/task-categor
         Brand,
         TaskCategory,
         TaskCategoryStatus,
+        Status,
       ],
       synchronize: true,
     }),
@@ -55,6 +58,7 @@ import { TaskCategoryStatus } from './task-category-status/entities/task-categor
     BrandModule,
     TaskCategoryModule,
     TaskCategoryStatusModule,
+    StatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
