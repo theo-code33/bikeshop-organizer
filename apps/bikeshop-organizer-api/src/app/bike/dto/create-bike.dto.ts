@@ -1,6 +1,7 @@
 import { DeepPartial } from 'typeorm';
 import { Client } from '../../client/entities/client.entity';
 import { Brand } from '../../brand/entities/brand.entity';
+import { Task } from '../../task/entities/task.entity';
 
 export class CreateBikeDto {
   brand: DeepPartial<Brand>;
@@ -8,5 +9,5 @@ export class CreateBikeDto {
   bicycode?: string;
   color: string;
   client: DeepPartial<Client>;
-  tasks?: string; // TODO: connect to Task entity => Replace by DeepPartial<Task[]>
+  tasks?: DeepPartial<Task[]>;
 }
