@@ -1,7 +1,14 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
 import { Common } from '../../common/entities/common.entity';
 import { Status } from '../../status/entities/status.entity';
+import { Task } from '../../task/entities/task.entity';
 
 @Entity()
 export class TaskCategoryStatus extends Common {
@@ -16,6 +23,6 @@ export class TaskCategoryStatus extends Common {
     (taskCategory) => taskCategory.taskCategoryStatus
   )
   taskCategory: TaskCategory;
-  @Column({ nullable: true })
-  tasks?: string; // TODO: create a Task entity
+  @OneToMany(() => Task, (task) => task.taskCategoryStatus)
+  tasks?: Task[];
 }

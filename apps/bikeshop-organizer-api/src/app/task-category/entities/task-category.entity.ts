@@ -8,6 +8,7 @@ import {
 import { Shop } from '../../shop/entities/shop.entity';
 import { Common } from '../../common/entities/common.entity';
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
+import { Task } from '../../task/entities/task.entity';
 
 @Entity()
 export class TaskCategory extends Common {
@@ -22,6 +23,6 @@ export class TaskCategory extends Common {
     (taskCategoryStatus) => taskCategoryStatus.taskCategory
   )
   taskCategoryStatus?: TaskCategoryStatus[];
-  @Column({ nullable: true })
-  tasks?: string; // TODO: create a Task entity
+  @OneToMany(() => Task, (task) => task.taskCategory)
+  tasks?: Task[];
 }

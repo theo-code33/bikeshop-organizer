@@ -26,7 +26,7 @@ describe('TaskCategoryStatusService', () => {
     status: {} as unknown as Status,
     order: 1,
     taskCategory: {} as unknown as TaskCategory,
-    tasks: 'tasks',
+    tasks: [],
     createdAt: new Date('2024-02-20T08:59:56.066Z'),
     updatedAt: new Date('2024-02-20T08:59:56.066Z'),
   };
@@ -89,12 +89,12 @@ describe('TaskCategoryStatusService', () => {
       jest
         .spyOn(taskCategoryStatusRepository, 'find')
         .mockResolvedValue([taskCategoryStatus]);
-
+      const taskCategory = '1';
       const taskCategoryStatusFound = await service.findAllByTaskCategory(
-        taskCategoryStatus.taskCategory.id
+        taskCategory
       );
       expect(taskCategoryStatusRepository.find).toHaveBeenCalledWith({
-        where: { taskCategory: taskCategoryStatus.taskCategory },
+        where: { taskCategory: { id: taskCategory } },
         relations: ['taskCategory', 'status'],
       });
       expect(taskCategoryStatusFound).toEqual([taskCategoryStatus]);

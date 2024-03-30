@@ -537,7 +537,6 @@ describe('e2e Shop', () => {
       const createTaskCategoryDto = {
         name: 'task category-1',
         shop: process.env.TEST_SHOP_ID,
-        tasks: 'tasks', // TODO: create tasks
       };
       try {
         const res = await axios.post(
@@ -949,6 +948,62 @@ describe('e2e Shop', () => {
         expect(res.data).toHaveProperty('id');
         expect(res.data.id).toBe(process.env.TEST_TASK_CATEGORY_STATUS_ID);
         expect(res.data.order).toBe(2);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('POST /task', () => {
+    it('should create a task', async () => {
+      const createTaskDto = {
+        taskCategoryStatus: process.env.TEST_TASK_CATEGORY_STATUS_ID,
+        taskCategory: process.env.TEST_TASK_CATEGORY_ID,
+        bike: process.env.TEST_BIKE_ID,
+        startDate: new Date(),
+        endDate: new Date(),
+      };
+      try {
+        const res = await axios.post(`${url}/task`, createTaskDto, {
+          headers: {
+            Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+          },
+        });
+
+        process.env.TEST_TASK_ID = res.data.id;
+
+        expect(res.status).toBe(201);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.taskCategoryStatus.id).toBe(
+          createTaskDto.taskCategoryStatus
+        );
+        expect(res.data.taskCategory.id).toBe(createTaskDto.taskCategory);
+        expect(res.data.bike.id).toBe(createTaskDto.bike);
+        expect(res.data.startDate).toBeDefined();
+        expect(res.data.endDate).toBeDefined();
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('DELETE /task/:id', () => {
+    it('should delete a task', async () => {
+      try {
+        const res = await axios.delete(
+          `${url}/task/${process.env.TEST_TASK_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
       } catch (error) {
         console.error(error);
         expect(error).toBeUndefined();
