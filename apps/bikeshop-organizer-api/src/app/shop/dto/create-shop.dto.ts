@@ -12,5 +12,4 @@ export class CreateShopDto {
   email: string;
   phoneNumber: string;
   clients?: Client[];
-  products?: string; // TODO: create a Product entity
 }

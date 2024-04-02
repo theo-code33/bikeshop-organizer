@@ -841,8 +841,6 @@ describe('e2e Shop', () => {
           }
         );
 
-        console.log(res.data);
-
         expect(res.status).toBe(200);
         expect(res.data[0]).toHaveProperty('id');
         expect(res.data[0].id).toBe(process.env.TEST_STATUS_ID);
@@ -982,6 +980,145 @@ describe('e2e Shop', () => {
         expect(res.data.bike.id).toBe(createTaskDto.bike);
         expect(res.data.startDate).toBeDefined();
         expect(res.data.endDate).toBeDefined();
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+  // TODO: test task request
+
+  describe('POST /product', () => {
+    it('should create a product', async () => {
+      const createProductDto = {
+        name: 'product-1',
+        brand: process.env.TEST_BRAND_ID,
+        price: 10,
+        shop: process.env.TEST_SHOP_ID,
+      };
+      try {
+        const res = await axios.post(`${url}/product`, createProductDto, {
+          headers: {
+            Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+          },
+        });
+
+        process.env.TEST_PRODUCT_ID = res.data.id;
+
+        expect(res.status).toBe(201);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(createProductDto.shop);
+        expect(res.data.name).toBe(createProductDto.name);
+        expect(res.data.price).toBe(createProductDto.price);
+        expect(res.data.brand.id).toBe(createProductDto.brand);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /product/shop/:shopId', () => {
+    it('should return products of shop', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/product/shop/${process.env.TEST_SHOP_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toBeInstanceOf(Array);
+        expect(res.data).toHaveLength(1);
+        expect(res.data[0]).toHaveProperty('id');
+        expect(res.data[0].id).toBe(process.env.TEST_PRODUCT_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /product/:id', () => {
+    it('should return a product', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/product/${process.env.TEST_PRODUCT_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_PRODUCT_ID);
+        expect(res.data).toHaveProperty('shop');
+        expect(res.data.shop.id).toBe(process.env.TEST_SHOP_ID);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+    it('should return a 404 error', async () => {
+      try {
+        await axios.get(`${url}/product/2c631dd2-f643-4c10-b500-6f82e14a6a1a`, {
+          headers: {
+            Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+          },
+        });
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+        expect(error.response.data).toHaveProperty('message');
+        expect(error.response.data.message).toEqual('Product not found');
+      }
+    });
+  });
+
+  describe('PATCH /product/:id', () => {
+    it('should update a product', async () => {
+      try {
+        const res = await axios.patch(
+          `${url}/product/${process.env.TEST_PRODUCT_ID}`,
+          { name: 'new name' },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_PRODUCT_ID);
+        expect(res.data.name).toBe('new name');
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('DELETE /product/:id', () => {
+    it('should delete a product', async () => {
+      try {
+        const res = await axios.delete(
+          `${url}/product/${process.env.TEST_PRODUCT_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('affected');
+        expect(res.data.affected).toBe(1);
       } catch (error) {
         console.error(error);
         expect(error).toBeUndefined();

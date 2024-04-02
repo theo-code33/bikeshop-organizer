@@ -4,7 +4,6 @@ import { TaskCategoryStatus } from '../../task-category-status/entities/task-cat
 import { Bike } from '../../bike/entities/bike.entity';
 
 export class CreateTaskDto {
-  products?: string; // TODO: replace with a Product entity
   taskCategory: DeepPartial<TaskCategory>;
   taskCategoryStatus: DeepPartial<TaskCategoryStatus>;
   bike: DeepPartial<Bike>;

@@ -3,36 +3,39 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Brand } from '../../brand/entities/brand.entity';
 import { Shop } from '../../shop/entities/shop.entity';
-import { Bike } from '../../bike/entities/bike.entity';
+import { Task } from '../../task/entities/task.entity';
 
 @Entity()
-export class Client {
+export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column({ nullable: false })
-  firstName: string;
+  name: string;
+
+  @ManyToOne(() => Brand, (brand) => brand.id)
+  brand: Brand;
+
   @Column({ nullable: false })
-  lastName: string;
-  @Column({ nullable: false })
-  phoneNumber: string;
-  @Column({ nullable: false })
-  email: string;
+  price: number;
+
   @ManyToOne(() => Shop, (shop) => shop.id)
   shop: Shop;
-  @Column({ nullable: false })
-  address: string;
-  @Column({ nullable: false })
-  postalCode: string;
-  @Column({ nullable: false })
-  city: string;
-  @OneToMany(() => Bike, (bike) => bike.client)
-  bikes?: Bike[];
+
+  @ManyToMany(() => Task)
+  @JoinTable()
+  tasks?: Task[];
+
+  @Column({ nullable: true })
+  productCategory?: string; // TODO: Create a product category entity
+
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()

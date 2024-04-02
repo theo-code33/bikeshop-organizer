@@ -1,16 +1,18 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Common } from '../../common/entities/common.entity';
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
 import { Shop } from '../../shop/entities/shop.entity';
 
 @Entity()
-export class Status extends Common {
+export class Status {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column({
@@ -32,4 +34,10 @@ export class Status extends Common {
     (taskCategoryStatus) => taskCategoryStatus.status
   )
   taskCategoryStatus?: TaskCategoryStatus[];
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
