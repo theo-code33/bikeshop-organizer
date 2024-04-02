@@ -1,13 +1,25 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { Common } from '../../common/entities/common.entity';
 import { Client } from '../../client/entities/client.entity';
 import { Brand } from '../../brand/entities/brand.entity';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
 import { Status } from '../../status/entities/status.entity';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity()
-export class Shop extends Common {
+export class Shop {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @OneToOne(() => User, (user) => user.shop)
   @JoinColumn()
   user: User;
@@ -29,10 +41,16 @@ export class Shop extends Common {
   taskCategories?: TaskCategory[];
   @OneToMany(() => Client, (client) => client.shop)
   clients?: Client[];
-  @Column({ nullable: true })
-  products?: string; // TODO: create a Product entity
+  @OneToMany(() => Product, (product) => product.shop)
+  products?: Product[];
   @OneToMany(() => Brand, (brand) => brand.shop)
   brands?: Brand[];
   @OneToMany(() => Status, (status) => status.shop)
   status?: Status[];
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

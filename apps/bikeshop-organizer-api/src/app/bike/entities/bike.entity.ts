@@ -1,11 +1,21 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Client } from '../../client/entities/client.entity';
-import { Common } from '../../common/entities/common.entity';
 import { Brand } from '../../brand/entities/brand.entity';
 import { Task } from '../../task/entities/task.entity';
 
 @Entity()
-export class Bike extends Common {
+export class Bike {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @ManyToOne(() => Brand, (brand) => brand.id)
   brand: Brand;
   @Column({ nullable: false })
@@ -18,4 +28,10 @@ export class Bike extends Common {
   client: Client;
   @OneToMany(() => Task, (task) => task.bike)
   tasks?: Task[];
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

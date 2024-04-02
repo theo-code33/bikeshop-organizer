@@ -24,6 +24,8 @@ import { StatusModule } from './status/status.module';
 import { Status } from './status/entities/status.entity';
 import { TaskModule } from './task/task.module';
 import { Task } from './task/entities/task.entity';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/entities/product.entity';
 
 @Module({
   imports: [
@@ -49,6 +51,7 @@ import { Task } from './task/entities/task.entity';
         TaskCategoryStatus,
         Status,
         Task,
+        Product,
       ],
       synchronize: true,
     }),
@@ -63,6 +66,7 @@ import { Task } from './task/entities/task.entity';
     TaskCategoryStatusModule,
     StatusModule,
     TaskModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

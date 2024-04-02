@@ -1,13 +1,25 @@
-import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
-import { Common } from '../../common/entities/common.entity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
 import { Bike } from '../../bike/entities/bike.entity';
 import { Product } from '../../product/entities/product.entity';
 
 @Entity()
-export class Task extends Common {
-  @ManyToMany(() => Product, (product) => product.tasks)
+export class Task {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  @ManyToMany(() => Product)
+  @JoinTable()
   products?: Product[];
   @ManyToOne(() => TaskCategory, (taskCategory) => taskCategory.tasks)
   taskCategory: TaskCategory;
@@ -29,4 +41,10 @@ export class Task extends Common {
     nullable: false,
   })
   endDate: string;
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

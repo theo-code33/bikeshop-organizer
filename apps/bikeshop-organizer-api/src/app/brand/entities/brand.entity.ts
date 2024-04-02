@@ -1,11 +1,21 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Bike } from '../../bike/entities/bike.entity';
-import { Common } from '../../common/entities/common.entity';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Product } from '../../product/entities/product.entity';
 
 @Entity()
-export class Brand extends Common {
+export class Brand {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column()
   name: string;
   @OneToMany(() => Bike, (bike) => bike.brand)
@@ -14,4 +24,10 @@ export class Brand extends Common {
   product?: Product[];
   @ManyToOne(() => Shop, (shop) => shop.brands)
   shop?: Shop;
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

@@ -1,11 +1,21 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
-import { Common } from '../../common/entities/common.entity';
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
 import { Task } from '../../task/entities/task.entity';
 
 @Entity()
-export class TaskCategory extends Common {
+export class TaskCategory {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   @Column({ nullable: false })
   name: string;
   @ManyToOne(() => Shop, (shop) => shop.taskCategories)
@@ -17,4 +27,10 @@ export class TaskCategory extends Common {
   taskCategoryStatus?: TaskCategoryStatus[];
   @OneToMany(() => Task, (task) => task.taskCategory)
   tasks?: Task[];
+  @CreateDateColumn()
+  createdAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
