@@ -1,18 +1,10 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Common } from '../../common/entities/common.entity';
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
 import { Shop } from '../../shop/entities/shop.entity';
 
 @Entity()
 export class Status extends Common {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
   @Column({
     nullable: false,
   })

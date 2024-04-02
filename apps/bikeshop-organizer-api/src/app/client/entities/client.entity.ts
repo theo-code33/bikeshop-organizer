@@ -1,18 +1,10 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Common } from '../../common/entities/common.entity';
 import { Bike } from '../../bike/entities/bike.entity';
 
 @Entity()
 export class Client extends Common {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
   @Column({ nullable: false })
   firstName: string;
   @Column({ nullable: false })

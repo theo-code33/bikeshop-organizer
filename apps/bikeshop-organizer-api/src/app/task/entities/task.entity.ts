@@ -1,15 +1,14 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
 import { Common } from '../../common/entities/common.entity';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
 import { Bike } from '../../bike/entities/bike.entity';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity()
 export class Task extends Common {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-  @Column({ nullable: true })
-  products?: string; // TODO: Create a Product entity
+  @ManyToMany(() => Product, (product) => product.tasks)
+  products?: Product[];
   @ManyToOne(() => TaskCategory, (taskCategory) => taskCategory.tasks)
   taskCategory: TaskCategory;
   @ManyToOne(
