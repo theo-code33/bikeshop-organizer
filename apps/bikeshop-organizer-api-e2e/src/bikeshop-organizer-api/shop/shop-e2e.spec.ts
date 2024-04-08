@@ -988,6 +988,83 @@ describe('e2e Shop', () => {
   });
   // TODO: test task request
 
+  describe('GET /task/task-category/:taskCategoryId/', () => {
+    it('should return tasks by task category id', async () => {
+      try {
+        const res = await axios.get(
+          `${url}/task/task-category/${process.env.TEST_TASK_CATEGORY_ID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toBeInstanceOf(Array);
+        expect(res.data).toHaveLength(1);
+        expect(res.data[0]).toHaveProperty('id');
+        expect(res.data[0].id).toBe(process.env.TEST_TASK_ID);
+        expect(res.data[0]).toHaveProperty('taskCategoryStatus');
+        expect(res.data[0]).toHaveProperty('taskCategory');
+        expect(res.data[0].taskCategory.id).toBe(
+          process.env.TEST_TASK_CATEGORY_ID
+        );
+        expect(res.data[0]).toHaveProperty('bike');
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('GET /task/:id', () => {
+    it('should return a task', async () => {
+      try {
+        const res = await axios.get(`${url}/task/${process.env.TEST_TASK_ID}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+          },
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_TASK_ID);
+        expect(res.data).toHaveProperty('taskCategoryStatus');
+        expect(res.data).toHaveProperty('taskCategory');
+        expect(res.data).toHaveProperty('bike');
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
+  describe('PATCH /task/:id', () => {
+    it('should update a task', async () => {
+      try {
+        const res = await axios.patch(
+          `${url}/task/${process.env.TEST_TASK_ID}`,
+          { startDate: new Date() },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.TEST_USER_TOKEN}`,
+            },
+          }
+        );
+
+        expect(res.status).toBe(200);
+        expect(res.data).toHaveProperty('id');
+        expect(res.data.id).toBe(process.env.TEST_TASK_ID);
+        expect(res.data.startDate).toBeDefined();
+        expect(res.data.updatedAt).not.toBe(res.data.createdAt);
+      } catch (error) {
+        console.error(error);
+        expect(error).toBeUndefined();
+      }
+    });
+  });
+
   describe('POST /product', () => {
     it('should create a product', async () => {
       const createProductDto = {
