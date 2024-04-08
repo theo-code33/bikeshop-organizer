@@ -12,6 +12,7 @@ import {
 import { Brand } from '../../brand/entities/brand.entity';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Task } from '../../task/entities/task.entity';
+import { ProductCategory } from '../../product-category/entities/product-category.entity';
 
 @Entity()
 export class Product {
@@ -33,9 +34,8 @@ export class Product {
   @JoinTable()
   tasks?: Task[];
 
-  @Column({ nullable: true })
-  productCategory?: string; // TODO: Create a product category entity
-
+  @ManyToOne(() => ProductCategory, (productCategory) => productCategory.id)
+  category?: ProductCategory;
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()

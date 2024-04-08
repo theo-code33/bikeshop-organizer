@@ -7,6 +7,7 @@ import { Brand } from '../brand/entities/brand.entity';
 import { Shop } from '../shop/entities/shop.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductCategory } from '../product-category/entities/product-category.entity';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -28,7 +29,7 @@ describe('ProductService', () => {
     price: 100,
     shop: {} as Shop,
     tasks: [],
-    productCategory: 'Product category test',
+    category: {} as ProductCategory,
     createdAt: new Date('2024-02-20T08:59:56.066Z'),
     updatedAt: new Date('2024-02-20T08:59:56.066Z'),
   };
@@ -63,7 +64,7 @@ describe('ProductService', () => {
       brand: {} as Brand,
       price: 100,
       shop: {} as Shop,
-      productCategory: 'Product category test',
+      productCategory: {} as ProductCategory,
     };
     it('should create a product', async () => {
       jest.spyOn(productRepository, 'save').mockResolvedValue(product);
@@ -82,7 +83,7 @@ describe('ProductService', () => {
       const products = await service.findAllByShop(shopId);
       expect(productRepository.find).toHaveBeenCalledWith({
         where: { shop: { id: shopId } },
-        relations: ['brand', 'shop', 'tasks', 'productCategory'],
+        relations: ['brand', 'shop', 'tasks', 'category'],
       });
       expect(products).toEqual([product]);
     });
@@ -94,7 +95,7 @@ describe('ProductService', () => {
       const productFound = await service.findOne(productId);
       expect(productRepository.findOne).toHaveBeenCalledWith({
         where: { id: productId },
-        relations: ['brand', 'shop', 'tasks', 'productCategory'],
+        relations: ['brand', 'shop', 'tasks', 'category'],
       });
       expect(productFound).toEqual(product);
     });
@@ -125,7 +126,7 @@ describe('ProductService', () => {
       );
       expect(productRepository.findOne).toHaveBeenCalledWith({
         where: { id: productId },
-        relations: ['brand', 'shop', 'tasks', 'productCategory'],
+        relations: ['brand', 'shop', 'tasks', 'category'],
       });
       expect(productUpdatedFound).toEqual(productUpdated);
     });
