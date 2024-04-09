@@ -15,6 +15,7 @@ import { Brand } from '../../brand/entities/brand.entity';
 import { TaskCategory } from '../../task-category/entities/task-category.entity';
 import { Status } from '../../status/entities/status.entity';
 import { Product } from '../../product/entities/product.entity';
+import { ProductCategory } from '../../product-category/entities/product-category.entity';
 
 @Entity()
 export class Shop {
@@ -47,6 +48,8 @@ export class Shop {
   brands?: Brand[];
   @OneToMany(() => Status, (status) => status.shop)
   status?: Status[];
+  @OneToMany(() => ProductCategory, (productCategory) => productCategory.shop)
+  categories?: ProductCategory[];
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
