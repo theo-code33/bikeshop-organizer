@@ -5,7 +5,7 @@ import { ProductCategory } from '../../product-category/entities/product-categor
 
 export class CreateProductDto {
   name: string;
-  brand: DeepPartial<Brand>;
+  brand?: DeepPartial<Brand>;
   price: number;
   shop: DeepPartial<Shop>;
   productCategory: DeepPartial<ProductCategory>;

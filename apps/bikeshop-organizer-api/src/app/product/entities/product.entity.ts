@@ -22,7 +22,7 @@ export class Product {
   name: string;
 
   @ManyToOne(() => Brand, (brand) => brand.id)
-  brand: Brand;
+  brand?: Brand;
 
   @Column({ nullable: false })
   price: number;
