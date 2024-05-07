@@ -29,12 +29,26 @@ import { Product } from './product/entities/product.entity';
 import { ProductCategoryModule } from './product-category/product-category.module';
 import { ProductCategory } from './product-category/entities/product-category.entity';
 
+import * as Joi from 'joi';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath:
         process.env.NODE_ENV === 'production' ? '.env' : '.env.development',
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production')
+          .default('development'),
+        PORT: Joi.number().default(8000),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_PORT: Joi.number().default(5432),
+        POSTGRES_DB: Joi.string().required(),
+        SECRET_KEY: Joi.string().required(),
+        MAIL_PASSWORD: Joi.string().required(),
+      }),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
