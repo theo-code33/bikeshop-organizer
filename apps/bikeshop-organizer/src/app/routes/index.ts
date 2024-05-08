@@ -9,6 +9,12 @@ const routes: Routes = {
     title: 'Connexion',
     hide: true,
   },
+  [Pages.Signup]: {
+    component: asyncComponentLoader(() => import('../pages/Signup')),
+    path: '/signup',
+    title: 'Inscription',
+    hide: true,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('../pages/NotFound')),
     path: '*',

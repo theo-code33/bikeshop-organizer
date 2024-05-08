@@ -6,6 +6,7 @@ import { Icon, IconProps } from '@tabler/icons-react';
 
 enum Pages {
   Login,
+  Signup,
   NotFound,
 }
 
