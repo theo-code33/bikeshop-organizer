@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
-import { getPageHeight } from './utils';
+import { getPageHeight } from '../../utils/getPageHeight';
 import routes from '..';
 
 const Pages = () => {
