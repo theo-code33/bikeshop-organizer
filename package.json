@@ -18,12 +18,14 @@
     "@nestjs/typeorm": "^10.0.1",
     "@swc/helpers": "~0.5.2",
     "@tabler/icons-react": "^3.3.0",
-    "axios": "^1.0.0",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
+    "notistack": "^3.0.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.11.3",
@@ -96,6 +98,7 @@
     "includedScripts": []
   },
   "resolutions": {
-    "string-width": "4.2.3"
+    "string-width": "4.2.3",
+    "wrap-ansi": "7.0.0"
   }
 }

@@ -9,6 +9,7 @@ import {
   Req,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -27,6 +28,19 @@ export class UserController {
   findOne(@Param('id') id: string) {
     try {
       return this.userService.findOne(id);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+  }
+  @Get()
+  findOneByEmail(@Query('email') email: string) {
+    try {
+      if (!email)
+        throw new HttpException('Email is required', HttpStatus.BAD_REQUEST);
+      return this.userService.findOneByEmail(email);
     } catch (error) {
       throw new HttpException(
         error.message,
