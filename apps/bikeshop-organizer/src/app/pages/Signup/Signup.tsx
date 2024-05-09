@@ -9,23 +9,25 @@ import {
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext/AuthContext';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const { enqueueSnackbar } = useSnackbar();
-  const handleSignup = () => {
+  const { signup } = useAuth();
+
+  const handleSignup = async () => {
     if (!email) {
-      console.log('Email is required');
       enqueueSnackbar('Email requis', { variant: 'error' });
       return;
     }
     if (!password) {
-      console.log('Password is required');
       enqueueSnackbar('Mot de passe requis', { variant: 'error' });
       return;
     }
-    console.log(email, password);
+    await signup(email, password);
   };
 
   return (
