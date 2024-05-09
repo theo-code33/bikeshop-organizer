@@ -1,9 +1,13 @@
 import { Box } from '@mui/material';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { getPageHeight } from '../../utils/getPageHeight';
 import routes from '..';
+import { useAuth } from '../../context/AuthContext/AuthContext';
 
 const Pages = () => {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -12,9 +16,18 @@ const Pages = () => {
       }}
     >
       <Routes>
-        {Object.values(routes).map(({ path, component: Component }) => (
-          <Route key={path} element={<Component />} path={path} />
-        ))}
+        {Object.values(routes).map(
+          ({ path, component: Component, restricted }) => {
+            if (restricted === undefined) restricted = true;
+            if (!auth.token && restricted) {
+              navigate('/login', {
+                replace: true,
+              });
+              return null;
+            }
+            return <Route key={path} element={<Component />} path={path} />;
+          }
+        )}
       </Routes>
     </Box>
   );

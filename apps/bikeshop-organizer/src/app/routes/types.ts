@@ -17,6 +17,7 @@ type PathRouteCustomProps = {
     | FC<SvgIconProps>
     | ForwardRefExoticComponent<Omit<IconProps, 'ref'> & RefAttributes<Icon>>;
   hide?: boolean;
+  restricted?: boolean;
 };
 
 type Routes = Record<Pages, PathRouteProps & PathRouteCustomProps>;
