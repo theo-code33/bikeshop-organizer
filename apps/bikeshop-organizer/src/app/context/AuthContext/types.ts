@@ -6,6 +6,9 @@ export type AuthCtx = {
   token: string;
   logOut: () => void;
   signup: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
 };
 
 export const AUTH_TOKEN_KEY = 'bikeshop-token';
+
+export const MAIN_ROUTE = '/';
