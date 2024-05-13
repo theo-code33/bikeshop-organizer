@@ -80,9 +80,18 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
       const user = await getUserByEmail(userEmail);
       if (user) {
         setUser(user);
+      } else {
+        setUser(null);
+        setToken('');
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        navigate('/login');
       }
     } catch (error) {
-      console.log('error', error);
+      setUser(null);
+      setToken('');
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      navigate('/login');
+      console.error('error', error);
     }
   };
 
