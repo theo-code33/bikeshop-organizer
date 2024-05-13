@@ -11,7 +11,10 @@ export class MailService {
     },
     token: string
   ) {
-    const url = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    const url =
+      process.env.NODE_ENV === 'production'
+        ? `${process.env.FRONTEND_URL}/reset-password?token=${token}`
+        : `http://localhost:4200/reset-password?token=${token}`;
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Reset your password',
