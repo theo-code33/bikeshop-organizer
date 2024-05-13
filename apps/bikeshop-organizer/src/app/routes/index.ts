@@ -17,6 +17,13 @@ const routes: Routes = {
     hide: true,
     restricted: false,
   },
+  [Pages.ResetPassword]: {
+    component: asyncComponentLoader(() => import('../pages/ResetPassword')),
+    path: '/reset-password',
+    title: 'Réinitialisation du mot de passe',
+    hide: true,
+    restricted: false,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('../pages/NotFound')),
     path: '*',
