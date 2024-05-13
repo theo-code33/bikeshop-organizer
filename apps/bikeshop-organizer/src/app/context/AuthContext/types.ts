@@ -1,4 +1,4 @@
-import { User } from '@bikeshop-organizer/types';
+import { User, UserDto } from '@bikeshop-organizer/types';
 
 export type AuthCtx = {
   user: User | null;
@@ -6,7 +6,7 @@ export type AuthCtx = {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   logOut: () => void;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (userDto: UserDto) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
 };
 

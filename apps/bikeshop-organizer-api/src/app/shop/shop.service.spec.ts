@@ -22,6 +22,8 @@ describe('ShopService', () => {
   const user: User = {
     id: '1',
     email: 'test-unitaire@test.com',
+    firstName: 'Test',
+    lastName: 'Unitaire',
     role: Roles.USER,
     createdAt: new Date('2024-02-20T08:59:56.066Z'),
     updatedAt: new Date('2024-02-20T08:59:56.066Z'),

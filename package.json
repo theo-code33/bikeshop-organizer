@@ -1,10 +1,11 @@
 {
   "name": "@bikeshop-organizer/source",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@bikeshop-organizer/types": "/Users/gillet/Desktop/projet-fil-rouge/bikeshop-organizer/libs/types",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.16",

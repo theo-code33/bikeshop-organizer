@@ -1,9 +1,8 @@
-import { User } from '@bikeshop-organizer/types';
+import { User, UserDto } from '@bikeshop-organizer/types';
 import instance from '..';
 
 const register = async (
-  email: string,
-  password: string
+  userDto: UserDto
 ): Promise<
   | {
       token: string;
@@ -13,10 +12,7 @@ const register = async (
       message: string;
     }
 > => {
-  const response = await instance.post('/auth/register', {
-    email,
-    password,
-  });
+  const response = await instance.post('/auth/register', userDto);
   return response.data;
 };
 

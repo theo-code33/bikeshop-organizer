@@ -8,11 +8,12 @@ import { Status } from './types/status.type';
 import { Task } from './types/task.type';
 import { TaskCategory } from './types/taskCategory.type';
 import { TaskCategoryStatus } from './types/taskCategoryStatus.type';
-import { User } from './types/user.type';
+import { User, UserDto } from './types/user.type';
 import { Roles } from './types/roles.type';
 export {
   Bike,
   User,
+  UserDto,
   Brand,
   Client,
   Product,
