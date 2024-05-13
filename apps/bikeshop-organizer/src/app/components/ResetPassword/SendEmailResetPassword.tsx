@@ -39,9 +39,9 @@ const SendEmailResetPassword = () => {
     console.log('send email reset password');
   };
   return (
-    <Stack alignItems="center" gap="50px" maxWidth="50%">
+    <>
       <Stack alignItems="center" gap="5px">
-        <Typography variant="h2" color="neutralDark.100">
+        <Typography variant="h2" color="neutralDark.100" textAlign="center">
           Mot de passe oublié ?
         </Typography>
         <Typography
@@ -73,7 +73,7 @@ const SendEmailResetPassword = () => {
       >
         Envoyer
       </Button>
-    </Stack>
+    </>
   );
 };
 

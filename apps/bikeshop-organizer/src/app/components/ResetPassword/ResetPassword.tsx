@@ -53,10 +53,10 @@ const ResetPassword = ({ token }: { token: string }) => {
     }
   };
   return (
-    <Stack alignItems="center" gap="50px" maxWidth="50%">
+    <>
       <Stack alignItems="center" gap="5px">
-        <Typography variant="h2" color="neutralDark.100">
-          Mot de passe oublié ?
+        <Typography variant="h2" color="neutralDark.100" textAlign="center">
+          Réinitialiser votre mot de passe
         </Typography>
       </Stack>
       <Stack width="100%" gap="20px">
@@ -93,7 +93,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       >
         Réinitialiser
       </Button>
-    </Stack>
+    </>
   );
 };
 
