@@ -29,6 +29,8 @@ module.exports = async function () {
   await axios
     .post('http://localhost:8000/api/auth/register', {
       email: process.env.TEST_USER_EMAIL,
+      firstName: 'Test',
+      lastName: 'User',
       password: process.env.TEST_USER_PASSWORD,
     })
     .then((res) => {
@@ -44,6 +46,8 @@ module.exports = async function () {
   await axios
     .post('http://localhost:8000/api/auth/register', {
       email: process.env.TEST_USER_EMAIL_2,
+      firstName: 'Test 2',
+      lastName: 'User 2',
       password: process.env.TEST_USER_PASSWORD_2,
     })
     .then((res) => {
