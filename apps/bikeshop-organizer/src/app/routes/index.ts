@@ -24,6 +24,12 @@ const routes: Routes = {
     hide: true,
     restricted: false,
   },
+  [Pages.User]: {
+    component: asyncComponentLoader(() => import('../pages/User')),
+    path: '/user',
+    title: 'Profil',
+    restricted: true,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('../pages/NotFound')),
     path: '*',
