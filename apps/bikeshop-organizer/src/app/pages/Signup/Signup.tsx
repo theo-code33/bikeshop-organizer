@@ -11,10 +11,13 @@ import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import AuthLayout from '../../layout/Auth/Auth.layout';
+import { UserDto } from '@bikeshop-organizer/types';
 
 const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
 
   const { enqueueSnackbar } = useSnackbar();
   const { signup } = useAuth();
@@ -28,7 +31,21 @@ const Signup = () => {
       enqueueSnackbar('Mot de passe requis', { variant: 'error' });
       return;
     }
-    await signup(email, password);
+    if (!firstName) {
+      enqueueSnackbar('Prénom requis', { variant: 'error' });
+      return;
+    }
+    if (!lastName) {
+      enqueueSnackbar('Nom requis', { variant: 'error' });
+      return;
+    }
+    const userDto: UserDto = {
+      email,
+      password,
+      firstName,
+      lastName,
+    };
+    await signup(userDto);
   };
 
   return (
@@ -48,6 +65,28 @@ const Signup = () => {
           </Typography>
         </Stack>
         <Stack width="100%" gap="20px">
+          <Box>
+            <InputLabel htmlFor="firstName">Prénom</InputLabel>
+            <TextField
+              type="text"
+              id="firstName"
+              name="firstName"
+              fullWidth
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </Box>
+          <Box>
+            <InputLabel htmlFor="lastName">Nom</InputLabel>
+            <TextField
+              type="text"
+              id="lastName"
+              name="lastName"
+              fullWidth
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </Box>
           <Box>
             <InputLabel htmlFor="email">Email</InputLabel>
             <TextField

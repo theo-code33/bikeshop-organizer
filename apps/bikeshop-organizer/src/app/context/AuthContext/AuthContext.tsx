@@ -1,7 +1,7 @@
 import { useContext, createContext, useState, useEffect } from 'react';
 import { AUTH_TOKEN_KEY, AuthCtx, MAIN_ROUTE } from './types';
 import { useNavigate } from 'react-router-dom';
-import { User } from '@bikeshop-organizer/types';
+import { User, UserDto } from '@bikeshop-organizer/types';
 import register from '../../utils/api/auth/register';
 import loginApi from '../../utils/api/auth/login';
 import { useSnackbar } from 'notistack';
@@ -25,9 +25,9 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const signup = async (email: string, password: string) => {
+  const signup = async (userDto: UserDto) => {
     try {
-      const response = await register(email, password);
+      const response = await register(userDto);
       if ('message' in response) {
         if (response.message.includes('duplicate key value')) {
           enqueueSnackbar("L'email est déjà utilisé, veuillez vous connecter", {
