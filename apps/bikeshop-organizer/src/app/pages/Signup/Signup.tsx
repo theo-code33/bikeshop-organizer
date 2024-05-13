@@ -89,6 +89,7 @@ const Signup = () => {
                 name="email"
                 fullWidth
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </Box>
             <Box>
@@ -99,6 +100,7 @@ const Signup = () => {
                 name="password"
                 fullWidth
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </Box>
           </Stack>

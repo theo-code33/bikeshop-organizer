@@ -89,6 +89,7 @@ const Login = () => {
                 name="email"
                 fullWidth
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </Box>
             <Stack gap="10px">
@@ -100,9 +101,10 @@ const Login = () => {
                   name="password"
                   fullWidth
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </Box>
-              <Link variant="link" href="/forgot-password" color="primary">
+              <Link variant="link" href="/reset-password" color="primary">
                 Mot de passe oublié ?
               </Link>
             </Stack>
