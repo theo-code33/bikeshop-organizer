@@ -4,6 +4,7 @@ export type AuthCtx = {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
   logOut: () => void;
   signup: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
