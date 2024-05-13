@@ -18,11 +18,16 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 import { IRequest } from '../auth/types/request.type';
+import { AuthService } from '../auth/auth.service';
+import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService
+  ) {}
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -50,7 +55,7 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
     @Req() req: IRequest
@@ -58,7 +63,19 @@ export class UserController {
     try {
       const { user } = req;
       if (user.role === RolesEnum.ADMIN || user.id === id) {
-        return this.userService.update(id, updateUserDto);
+        if (updateUserDto.password) {
+          const hash = await bcrypt.hash(updateUserDto.password, 10);
+          updateUserDto.password = hash;
+        }
+        const updatedUser = await this.userService.update(id, updateUserDto);
+        if (updateUserDto.email) {
+          const payload = {
+            email: updatedUser.email,
+          };
+          const token = await this.authService.signPayload(payload);
+          return { user: updatedUser, token };
+        }
+        return updatedUser;
       }
       throw new HttpException('Forbidden access', HttpStatus.FORBIDDEN);
     } catch (error) {
