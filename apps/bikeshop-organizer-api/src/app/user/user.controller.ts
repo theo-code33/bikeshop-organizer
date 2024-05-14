@@ -19,7 +19,6 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 import { IRequest } from '../auth/types/request.type';
 import { AuthService } from '../auth/auth.service';
-import * as bcrypt from 'bcrypt';
 
 @Controller('user')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -63,10 +62,6 @@ export class UserController {
     try {
       const { user } = req;
       if (user.role === RolesEnum.ADMIN || user.id === id) {
-        if (updateUserDto.password) {
-          const hash = await bcrypt.hash(updateUserDto.password, 10);
-          updateUserDto.password = hash;
-        }
         const updatedUser = await this.userService.update(id, updateUserDto);
         if (updateUserDto.email) {
           const payload = {
