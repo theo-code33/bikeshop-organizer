@@ -32,15 +32,7 @@ const AuthLayout = ({
         justifyContent="space-between"
       >
         <Box>
-          <img
-            src="/logo.png"
-            alt="Logo"
-            style={{
-              width: '200px',
-              height: '100px',
-              objectFit: 'cover',
-            }}
-          />
+          <img src="/logo.svg" alt="Logo" />
         </Box>
         <Stack alignItems="center" gap="50px" maxWidth="50%">
           {children}
