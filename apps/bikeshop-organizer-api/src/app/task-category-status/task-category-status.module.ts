@@ -8,5 +8,6 @@ import { TaskCategoryStatus } from './entities/task-category-status.entity';
   imports: [TypeOrmModule.forFeature([TaskCategoryStatus])],
   controllers: [TaskCategoryStatusController],
   providers: [TaskCategoryStatusService],
+  exports: [TaskCategoryStatusService],
 })
 export class TaskCategoryStatusModule {}

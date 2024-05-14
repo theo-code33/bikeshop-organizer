@@ -20,13 +20,22 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 import { IRequest } from '../auth/types/request.type';
 import { UserService } from '../user/user.service';
+import { CreateStatusDto } from '../status/dto/create-status.dto';
+import { StatusService } from '../status/status.service';
+import { TaskCategoryStatusService } from '../task-category-status/task-category-status.service';
+import { CreateTaskCategoryStatusDto } from '../task-category-status/dto/create-task-category-status.dto';
+import { TaskCategoryService } from '../task-category/task-category.service';
+import { CreateTaskCategoryDto } from '../task-category/dto/create-task-category.dto';
 
 @Controller('shop')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class ShopController {
   constructor(
     private readonly shopService: ShopService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly statusService: StatusService,
+    private readonly taskCategoryService: TaskCategoryService,
+    private readonly taskCategoryStatusService: TaskCategoryStatusService
   ) {}
 
   @Post()
@@ -37,9 +46,44 @@ export class ShopController {
       const userData = {
         role: RolesEnum.SHOP,
       };
-      const user = await this.userService.update(shop.user.id, userData);
-      shop.user = user;
-      return shop;
+      const taskCategory: CreateTaskCategoryDto = {
+        name: 'Réparation',
+        shop: { id: shop.id },
+      };
+      const taskCategoryCreated = await this.taskCategoryService.create(
+        taskCategory
+      );
+      const newStatus: CreateStatusDto[] = [
+        {
+          name: 'À faire',
+          color: '#36027D',
+          shop: { id: shop.id },
+        },
+        {
+          name: 'En cours',
+          color: '#F1A91F',
+          shop: { id: shop.id },
+        },
+        {
+          name: 'Terminé',
+          color: '#1AD698',
+          shop: { id: shop.id },
+        },
+      ];
+      let i = 1;
+      for (const status of newStatus) {
+        const statusCreated = await this.statusService.create(status);
+        const taskCategoryStatus: CreateTaskCategoryStatusDto = {
+          status: { id: statusCreated.id },
+          order: i,
+          taskCategory: { id: taskCategoryCreated.id },
+        };
+        await this.taskCategoryStatusService.create(taskCategoryStatus);
+        i++;
+      }
+      await this.userService.update(shop.user.id, userData);
+      const shopUpdated = await this.shopService.findOne(shop.id);
+      return shopUpdated;
     } catch (error) {
       throw new HttpException(
         error.message,
