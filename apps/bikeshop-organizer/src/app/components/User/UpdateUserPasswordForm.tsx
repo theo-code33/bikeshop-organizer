@@ -34,7 +34,7 @@ const UpdateUserPasswordForm = () => {
       });
       setValue('password', '');
       setValue('confirmPassword', '');
-      enqueueSnackbar('Vos informations ont été modifiées', {
+      enqueueSnackbar('Votre mot de passe a été modifié', {
         variant: 'success',
       });
     } catch (error) {
