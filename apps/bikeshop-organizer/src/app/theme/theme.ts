@@ -293,6 +293,8 @@ const theme = createTheme(baseTheme, {
           color: baseTheme.palette && baseTheme.palette?.primary.main,
           fontWeight: 500,
           height: 44,
+          background: baseTheme.palette?.background.paper,
+          borderRadius: 15 + 'px !important',
           '& .MuiOutlinedInput-notchedOutline': {
             borderColor: '#DFE4F2 !important',
             borderRadius: 15,
