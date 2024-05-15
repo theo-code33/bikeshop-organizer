@@ -7,7 +7,6 @@ import { useShop } from '../../context/ShopContext/ShopContext';
 
 const Settings = () => {
   const { shop } = useShop();
-  console.log(shop);
 
   return (
     <MainLayout>
