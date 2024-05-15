@@ -9,5 +9,5 @@ export interface Bike extends Common {
   bicycode?: string;
   color: string;
   client: Client;
-  tasks: Task[];
+  tasks?: Task[];
 }

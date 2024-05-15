@@ -4,6 +4,6 @@ import { Product } from './product.type';
 
 export interface Brand extends Common {
   name: string;
-  bikes: Bike[];
-  products: Product[];
+  bikes?: Bike[];
+  products?: Product[];
 }

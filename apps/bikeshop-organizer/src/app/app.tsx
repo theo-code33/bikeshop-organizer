@@ -9,6 +9,7 @@ import { SnackbarKey, SnackbarProvider, useSnackbar } from 'notistack';
 import { IconButton } from '@mui/material';
 import { IconX } from '@tabler/icons-react';
 import AuthProvider from './context/AuthContext/AuthContext';
+import ShopProvider from './context/ShopContext/ShopContext';
 
 const CloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
   const { closeSnackbar } = useSnackbar();
@@ -39,7 +40,9 @@ export function App() {
           action={(snackbarKey) => <CloseButton snackbarKey={snackbarKey} />}
         >
           <AuthProvider>
-            <Pages />
+            <ShopProvider>
+              <Pages />
+            </ShopProvider>
           </AuthProvider>
         </SnackbarProvider>
       </ThemeProvider>

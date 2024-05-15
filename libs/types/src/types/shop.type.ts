@@ -1,6 +1,9 @@
+import { Brand } from './brand.type';
 import { Client } from './client.type';
 import { Common } from './common.type';
 import { Product } from './product.type';
+import { ProductCategory } from './productCategory.type';
+import { Status } from './status.type';
 import { TaskCategory } from './taskCategory.type';
 import { User } from './user.type';
 
@@ -13,7 +16,10 @@ export interface Shop extends Common {
   city: string;
   email: string;
   phoneNumber: string;
-  tasksCategory: TaskCategory[];
-  clients: Client[];
-  products: Product[];
+  taskCategories?: TaskCategory[];
+  clients?: Client[];
+  products?: Product[];
+  brands?: Brand[];
+  status?: Status[];
+  categories?: ProductCategory[];
 }

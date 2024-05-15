@@ -6,9 +6,9 @@ import { Task } from './task.type';
 
 export interface Product extends Common {
   name: string;
-  brand: Brand;
+  brand?: Brand;
   price: number;
   shop: Shop;
-  tasks: Task[];
-  category: ProductCategory;
+  tasks?: Task[];
+  category?: ProductCategory;
 }
