@@ -3,6 +3,7 @@ import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigModule } from '@nestjs/config';
+import { MailController } from './mail.controller';
 
 @Global()
 @Module({
@@ -24,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       },
     }),
   ],
+  controllers: [MailController],
   providers: [MailService],
   exports: [MailService],
 })

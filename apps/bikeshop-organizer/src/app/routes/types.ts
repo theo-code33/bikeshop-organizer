@@ -5,6 +5,7 @@ import type { SvgIconProps } from '@mui/material/SvgIcon';
 import { Icon, IconProps } from '@tabler/icons-react';
 
 enum Pages {
+  Main,
   Login,
   Signup,
   ResetPassword,

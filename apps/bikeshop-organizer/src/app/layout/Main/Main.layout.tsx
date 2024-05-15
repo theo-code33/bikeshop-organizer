@@ -7,6 +7,7 @@ import {
   IconUsers,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext/AuthContext';
 
 const menuItemStyle = {
   display: 'flex',
@@ -23,61 +24,86 @@ const menuItemStyle = {
 const MainLayout = ({ children }: { children: JSX.Element }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const isUserRole = user?.role === 'user';
   return (
     <Grid container overflow="hidden" height="100vh" position="relative">
-      <Grid
-        item
-        xs={3}
-        p="40px"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-      >
-        <Stack gap="32px">
-          <Box p="16px">
-            <img src="/logo.svg" alt="Logo" />
-          </Box>
-          <MenuList>
-            <MenuItem
-              onClick={() => navigate('/prestations')}
-              sx={menuItemStyle}
+      {!isUserRole && (
+        <Grid
+          item
+          xs={3}
+          p="40px"
+          display="flex"
+          flexDirection="column"
+          justifyContent="space-between"
+        >
+          <Stack gap="32px">
+            <Box
+              p="16px"
+              onClick={() => navigate('/')}
+              sx={{
+                cursor: 'pointer',
+              }}
             >
-              <IconTools color={theme.palette.primary.xdark} opacity={0.7} />
-              Prestations
-            </MenuItem>
-            <MenuItem onClick={() => navigate('/shop')} sx={menuItemStyle}>
-              <IconShoppingBag
+              <img src="/logo.svg" alt="Logo" />
+            </Box>
+            <MenuList>
+              <MenuItem
+                onClick={() => navigate('/prestations')}
+                sx={menuItemStyle}
+              >
+                <IconTools color={theme.palette.primary.xdark} opacity={0.7} />
+                Prestations
+              </MenuItem>
+              <MenuItem onClick={() => navigate('/shop')} sx={menuItemStyle}>
+                <IconShoppingBag
+                  color={theme.palette.primary.xdark}
+                  opacity={0.7}
+                />
+                Boutique
+              </MenuItem>
+              <MenuItem onClick={() => navigate('/clients')} sx={menuItemStyle}>
+                <IconUsers color={theme.palette.primary.xdark} opacity={0.7} />
+                Clients
+              </MenuItem>
+            </MenuList>
+          </Stack>
+          <MenuList>
+            <MenuItem onClick={() => navigate('/settings')} sx={menuItemStyle}>
+              <IconAdjustmentsHorizontal
                 color={theme.palette.primary.xdark}
                 opacity={0.7}
               />
-              Boutique
-            </MenuItem>
-            <MenuItem onClick={() => navigate('/clients')} sx={menuItemStyle}>
-              <IconUsers color={theme.palette.primary.xdark} opacity={0.7} />
-              Clients
+              Paramètres
             </MenuItem>
           </MenuList>
-        </Stack>
-        <MenuList>
-          <MenuItem onClick={() => navigate('/settings')} sx={menuItemStyle}>
-            <IconAdjustmentsHorizontal
-              color={theme.palette.primary.xdark}
-              opacity={0.7}
-            />
-            Paramètres
-          </MenuItem>
-        </MenuList>
-      </Grid>
+        </Grid>
+      )}
       <Grid
         item
-        xs={9}
+        xs={isUserRole ? 12 : 9}
         display="flex"
         flexDirection="column"
         p="40px"
         gap="40px"
         sx={{ backgroundColor: 'rgba(54, 2, 125, 0.06)' }}
       >
-        <Stack direction="row" justifyContent="flex-end">
+        <Stack
+          direction="row"
+          justifyContent={isUserRole ? 'space-between' : 'flex-end'}
+        >
+          {isUserRole && (
+            <Box
+              p="16px"
+              onClick={() => navigate('/')}
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              <img src="/logo.svg" alt="Logo" />
+            </Box>
+          )}
           <UserAvatarMenuItem />
         </Stack>
         {children}

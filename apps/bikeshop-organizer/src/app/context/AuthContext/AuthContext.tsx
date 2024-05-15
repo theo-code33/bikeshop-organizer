@@ -7,6 +7,7 @@ import loginApi from '../../utils/api/auth/login';
 import { useSnackbar } from 'notistack';
 import { getUserEmail } from '../../utils/jwt/getUserEmail';
 import { getUserByEmail } from '../../utils/api/user/getUserByEmail';
+import instance from '../../utils/api';
 const AuthContext = createContext<AuthCtx>({
   user: null,
   setUser: () => {},
@@ -104,6 +105,7 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
   useEffect(() => {
     if (!token) return;
+    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     if (user) return;
     (async () => {
       await loginByToken(token);
