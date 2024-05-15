@@ -24,4 +24,23 @@ export class MailService {
       },
     });
   }
+
+  async sendCreateShopMail(
+    userId: string,
+    email: string,
+    userFirstName: string,
+    userLastName: string
+  ) {
+    await this.mailerService.sendMail({
+      to: process.env.MAIL_ADMIN,
+      subject: 'New shop to approve',
+      template: './create-shop',
+      context: {
+        userId,
+        email,
+        userFirstName,
+        userLastName,
+      },
+    });
+  }
 }
