@@ -10,6 +10,7 @@ enum Pages {
   Signup,
   ResetPassword,
   User,
+  Settings,
   NotFound,
 }
 

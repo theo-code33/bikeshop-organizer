@@ -36,6 +36,12 @@ const routes: Routes = {
     title: 'Profil',
     restricted: true,
   },
+  [Pages.Settings]: {
+    component: asyncComponentLoader(() => import('../pages/Settings')),
+    path: '/settings',
+    title: 'Paramètres',
+    restricted: true,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('../pages/NotFound')),
     path: '*',
