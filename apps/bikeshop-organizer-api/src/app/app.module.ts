@@ -48,6 +48,7 @@ import * as Joi from 'joi';
         POSTGRES_DB: Joi.string().required(),
         SECRET_KEY: Joi.string().required(),
         MAIL_PASSWORD: Joi.string().required(),
+        MAIL_ADMIN: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRoot({
