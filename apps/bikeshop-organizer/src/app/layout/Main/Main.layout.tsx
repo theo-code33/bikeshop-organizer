@@ -106,7 +106,15 @@ const MainLayout = ({ children }: { children: JSX.Element }) => {
           )}
           <UserAvatarMenuItem />
         </Stack>
-        {children}
+        <Stack
+          height="100%"
+          sx={{
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          }}
+        >
+          {children}
+        </Stack>
       </Grid>
       <Box
         sx={{

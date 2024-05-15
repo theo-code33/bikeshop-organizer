@@ -3,7 +3,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { User as UserInterface } from '@bikeshop-organizer/types';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from '../auth/dto/login.dto';
@@ -107,7 +106,7 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-  sanitizeUser(user: User): UserInterface {
+  sanitizeUser(user: User) {
     if (!user) return null;
     const sanitized = user;
     delete sanitized.password;
