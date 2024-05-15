@@ -17,7 +17,6 @@ const ShopProvider = ({ children }: { children: JSX.Element }) => {
       if (user && user.shop && user.shop.id) {
         const shopApi = await getShopById(user.shop.id);
         setShop(shopApi);
-        console.log(shopApi);
       }
     })();
   }, [user]);
