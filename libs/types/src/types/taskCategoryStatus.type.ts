@@ -6,6 +6,6 @@ import { TaskCategory } from './taskCategory.type';
 export interface TaskCategoryStatus extends Common {
   status: Status;
   order: number;
-  missions: TaskCategory[];
-  tasks: Task[];
+  taskCategory: TaskCategory;
+  tasks?: Task[];
 }
