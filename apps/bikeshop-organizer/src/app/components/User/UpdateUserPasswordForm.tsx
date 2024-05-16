@@ -67,7 +67,7 @@ const UpdateUserPasswordForm = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Box width="100%">
-                  <InputLabel htmlFor="password">
+                  <InputLabel htmlFor="password" required>
                     Nouveau Mot de Passe
                   </InputLabel>
                   <TextField
@@ -94,7 +94,7 @@ const UpdateUserPasswordForm = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Box width="100%">
-                  <InputLabel htmlFor="confirmPassword">
+                  <InputLabel htmlFor="confirmPassword" required>
                     Confirmation Nouveau Mot de Passe
                   </InputLabel>
                   <TextField

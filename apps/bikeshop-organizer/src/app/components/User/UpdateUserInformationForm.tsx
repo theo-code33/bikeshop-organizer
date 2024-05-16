@@ -52,7 +52,9 @@ const UpdateUserInformationForm = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Box width="100%">
-                  <InputLabel htmlFor="firstName">Prénom</InputLabel>
+                  <InputLabel htmlFor="firstName" required>
+                    Prénom
+                  </InputLabel>
                   <TextField
                     type="text"
                     id="firstName"
@@ -77,7 +79,9 @@ const UpdateUserInformationForm = () => {
             render={({ field: { onChange, value }, fieldState: { error } }) => {
               return (
                 <Box width="100%">
-                  <InputLabel htmlFor="lastName">Nom</InputLabel>
+                  <InputLabel htmlFor="lastName" required>
+                    Nom
+                  </InputLabel>
                   <TextField
                     type="text"
                     id="lastName"
@@ -103,7 +107,9 @@ const UpdateUserInformationForm = () => {
           render={({ field: { onChange, value }, fieldState: { error } }) => {
             return (
               <Box width="100%">
-                <InputLabel htmlFor="email">Email</InputLabel>
+                <InputLabel htmlFor="email" required>
+                  Email
+                </InputLabel>
                 <TextField
                   type="text"
                   id="email"
