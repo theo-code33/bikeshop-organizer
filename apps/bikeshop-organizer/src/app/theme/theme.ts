@@ -287,6 +287,15 @@ const theme = createTheme(baseTheme, {
         },
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '& .MuiFormLabel-asterisk': {
+            color: baseTheme.palette?.error.main,
+          },
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {

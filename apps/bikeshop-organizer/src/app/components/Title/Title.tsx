@@ -1,6 +1,13 @@
 import { Box, Stack, Typography } from '@mui/material';
+import { Variant } from '@mui/material/styles/createTypography';
 
-const Title = ({ title }: { title: string }) => {
+const Title = ({
+  title,
+  titleVariant = 'h3',
+}: {
+  title: string;
+  titleVariant?: Variant;
+}) => {
   return (
     <Stack gap="12px" direction="row" alignItems="stretch">
       <Box
@@ -11,7 +18,7 @@ const Title = ({ title }: { title: string }) => {
           borderRadius: '8px 8px 0 0',
         }}
       />
-      <Typography variant="h3" color="primary.xdark">
+      <Typography variant={titleVariant} color="primary.xdark">
         {title}
       </Typography>
     </Stack>
