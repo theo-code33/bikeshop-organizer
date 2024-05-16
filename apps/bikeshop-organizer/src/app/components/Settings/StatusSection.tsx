@@ -11,21 +11,25 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { Shop } from '@bikeshop-organizer/types';
-import CreateStatusDialog from '../Status/CreateStatusDialog';
+import { Shop, Status } from '@bikeshop-organizer/types';
+import StatusFormDialog from '../Status/StatusFormDialog';
 import { useState } from 'react';
 
 const StatusSection = ({ shop }: { shop: Shop }) => {
-  const [openCreateDialog, setOpenCreateDialog] = useState<boolean>(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [currentStatus, setCurrentStatus] = useState<Status | undefined>();
   const handleOpenCreateDialog = () => {
-    setOpenCreateDialog(true);
+    setOpenDialog(true);
+    setCurrentStatus(undefined);
   };
-  const handleCloseCreateDialog = () => {
-    setOpenCreateDialog(false);
+  const handleCloseDialog = () => {
+    setCurrentStatus(undefined);
+    setOpenDialog(false);
   };
 
-  const handleOpenUpdateDialog = () => {
-    console.log('open update dialog');
+  const handleOpenUpdateDialog = (status: Status) => {
+    setCurrentStatus(status);
+    setOpenDialog(true);
   };
 
   return (
@@ -70,7 +74,7 @@ const StatusSection = ({ shop }: { shop: Shop }) => {
                   <TableRow
                     key={item.id}
                     hover
-                    onClick={handleOpenUpdateDialog}
+                    onClick={() => handleOpenUpdateDialog(item)}
                     sx={{
                       cursor: 'pointer',
                     }}
@@ -121,9 +125,10 @@ const StatusSection = ({ shop }: { shop: Shop }) => {
           </TableContainer>
         )}
       </Stack>
-      <CreateStatusDialog
-        open={openCreateDialog}
-        onClose={handleCloseCreateDialog}
+      <StatusFormDialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        currentStatus={currentStatus}
       />
     </>
   );
