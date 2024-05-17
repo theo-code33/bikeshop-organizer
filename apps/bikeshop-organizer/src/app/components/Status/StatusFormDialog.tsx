@@ -37,6 +37,7 @@ const StatusFormDialog = ({
   const { control, handleSubmit, setValue } = useForm();
   const { enqueueSnackbar } = useSnackbar();
   const { shop, setShop } = useShop();
+
   const onSubmit = async (data: unknown) => {
     if (!shop) return;
     const { name, description, color } = data as {
@@ -62,6 +63,19 @@ const StatusFormDialog = ({
           if (!prevShop) return prevShop;
           return {
             ...prevShop,
+            taskCategories: prevShop.taskCategories?.map((taskCategory) => {
+              return {
+                ...taskCategory,
+                taskCategoryStatus:
+                  (taskCategory.taskCategoryStatus &&
+                    taskCategory.taskCategoryStatus.map((item) =>
+                      item.status.id === updatedStatus.id
+                        ? { ...item, status: updatedStatus }
+                        : item
+                    )) ||
+                  [],
+              };
+            }),
             status: prevShop.status?.map((status) =>
               status.id === updatedStatus.id ? updatedStatus : status
             ),
