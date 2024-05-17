@@ -19,17 +19,39 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 import { IRequest } from '../auth/types/request.type';
+import { TaskCategoryStatusService } from '../task-category-status/task-category-status.service';
 
 @Controller('task-category')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class TaskCategoryController {
-  constructor(private readonly taskCategoryService: TaskCategoryService) {}
+  constructor(
+    private readonly taskCategoryService: TaskCategoryService,
+    private readonly taskCategoryStatusService: TaskCategoryStatusService
+  ) {}
 
   @Post()
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
-  create(@Body() createTaskCategoryDto: CreateTaskCategoryDto) {
+  async create(@Body() createTaskCategoryDto: CreateTaskCategoryDto) {
     try {
-      return this.taskCategoryService.create(createTaskCategoryDto);
+      const taskCategoryCreated = await this.taskCategoryService.create({
+        name: createTaskCategoryDto.name,
+        shop: createTaskCategoryDto.shop,
+      });
+      if (
+        createTaskCategoryDto.taskCategoryStatus &&
+        createTaskCategoryDto.taskCategoryStatus.length > 0
+      ) {
+        for (const taskCategoryStatus of createTaskCategoryDto.taskCategoryStatus) {
+          await this.taskCategoryStatusService.create({
+            ...taskCategoryStatus,
+            taskCategory: { id: taskCategoryCreated.id },
+          });
+        }
+      }
+      const taskCategory = await this.taskCategoryService.findOne(
+        taskCategoryCreated.id
+      );
+      return taskCategory;
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -97,8 +119,15 @@ export class TaskCategoryController {
 
   @Delete(':id')
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     try {
+      const taskCategory = await this.taskCategoryService.findOne(id);
+      if (!taskCategory) {
+        throw new HttpException('TaskCategory not found', HttpStatus.NOT_FOUND);
+      }
+      for (const taskCategoryStatus of taskCategory.taskCategoryStatus) {
+        await this.taskCategoryStatusService.remove(taskCategoryStatus.id);
+      }
       return this.taskCategoryService.remove(id);
     } catch (error) {
       throw new HttpException(
