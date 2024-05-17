@@ -411,7 +411,7 @@ const TaskCategoryFormDialog = ({
       await fetchStatuses();
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shop?.status]);
 
   const getItemStyle = (
     isDragging: boolean,
