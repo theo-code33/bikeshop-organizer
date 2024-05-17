@@ -2,6 +2,7 @@ import { Box, Grid, MenuItem, MenuList, Stack, useTheme } from '@mui/material';
 import UserAvatarMenuItem from '../../components/UserAvatarMenuItem';
 import {
   IconAdjustmentsHorizontal,
+  IconLayoutGrid,
   IconShoppingBag,
   IconTools,
   IconUsers,
@@ -49,6 +50,13 @@ const MainLayout = ({ children }: { children: JSX.Element }) => {
               <img src="/logo.svg" alt="Logo" />
             </Box>
             <MenuList>
+              <MenuItem onClick={() => navigate('/')} sx={menuItemStyle}>
+                <IconLayoutGrid
+                  color={theme.palette.primary.xdark}
+                  opacity={0.7}
+                />
+                Tableau de bord
+              </MenuItem>
               <MenuItem
                 onClick={() => navigate('/prestations')}
                 sx={menuItemStyle}
