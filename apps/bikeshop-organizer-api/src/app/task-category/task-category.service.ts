@@ -15,8 +15,7 @@ export class TaskCategoryService {
     const taskCategoryCreated = await this.taskCategoryRepository.save(
       createTaskCategoryDto
     );
-    const taskCategory = await this.findOne(taskCategoryCreated.id);
-    return taskCategory;
+    return taskCategoryCreated;
   }
 
   async findAllByShop(shopId: string) {
@@ -29,7 +28,12 @@ export class TaskCategoryService {
   async findOne(id: string) {
     const taskCategory = await this.taskCategoryRepository.findOne({
       where: { id },
-      relations: ['shop'],
+      relations: ['shop', 'taskCategoryStatus', 'taskCategoryStatus.status'],
+      order: {
+        taskCategoryStatus: {
+          order: 'ASC',
+        },
+      },
     });
 
     if (!taskCategory) {

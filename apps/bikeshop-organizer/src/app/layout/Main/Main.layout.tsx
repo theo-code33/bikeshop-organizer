@@ -107,10 +107,11 @@ const MainLayout = ({ children }: { children: JSX.Element }) => {
           <UserAvatarMenuItem />
         </Stack>
         <Stack
-          height="100%"
+          height="80vh"
           sx={{
             overflowY: 'auto',
             overflowX: 'hidden',
+            scrollbarWidth: 'none',
           }}
         >
           {children}

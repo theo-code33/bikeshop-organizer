@@ -29,6 +29,13 @@ export class ShopService {
         'taskCategories.taskCategoryStatus.status',
         'status',
       ],
+      order: {
+        taskCategories: {
+          taskCategoryStatus: {
+            order: 'ASC',
+          },
+        },
+      },
     });
     if (!shop) {
       throw new HttpException('Shop not found', HttpStatus.NOT_FOUND);
