@@ -615,8 +615,8 @@ const TaskCategoryFormDialog = ({
         </DialogTitle>
         <DialogContent>
           <Typography variant="body2">
-            Cette action est irréversible. Vous ne pourrez pas récupérer ce
-            statut.
+            Cette action est irréversible. Vous ne pourrez pas récupérer cette
+            prestation.
           </Typography>
         </DialogContent>
         <DialogActions>
