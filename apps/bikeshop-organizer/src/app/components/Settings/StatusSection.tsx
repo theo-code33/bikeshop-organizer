@@ -1,19 +1,8 @@
-import {
-  Box,
-  Button,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { Shop, Status } from '@bikeshop-organizer/types';
 import StatusFormDialog from '../Status/StatusFormDialog';
 import { useState } from 'react';
+import TableCustom from '../TableCustom';
 
 const StatusSection = ({ shop }: { shop: Shop }) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -27,8 +16,8 @@ const StatusSection = ({ shop }: { shop: Shop }) => {
     setOpenDialog(false);
   };
 
-  const handleOpenUpdateDialog = (status: Status) => {
-    setCurrentStatus(status);
+  const handleOpenUpdateDialog = (status: unknown) => {
+    setCurrentStatus(status as Status);
     setOpenDialog(true);
   };
 
@@ -47,82 +36,47 @@ const StatusSection = ({ shop }: { shop: Shop }) => {
             Créer un statut
           </Button>
         </Stack>
-        {shop.taskCategories?.length === 0 ? (
+        {shop.status?.length === 0 ? (
           <Typography variant="body1" color="primary.xdark">
-            Aucune prestation n'a été créée pour le moment.
+            Aucun Statut n'a été créée pour le moment.
           </Typography>
         ) : (
-          <TableContainer
-            component={Paper}
-            elevation={0}
-            sx={{
-              width: 'auto',
-              borderRadius: '15px',
-              padding: '10px',
-            }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Nom</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Couleur</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {shop.status?.map((item, index) => (
-                  <TableRow
-                    key={item.id}
-                    hover
-                    onClick={() => handleOpenUpdateDialog(item)}
-                    sx={{
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <TableCell
+          <TableCustom
+            datas={
+              (shop.status as {
+                id: string;
+                name: string;
+                description: string;
+                color: string;
+              }[]) || []
+            }
+            onRowClick={handleOpenUpdateDialog}
+            columns={[
+              { key: 'name', label: 'Nom' },
+              {
+                key: 'description',
+                label: 'Description',
+                typographyVariant: 'body2',
+              },
+              {
+                key: 'color',
+                label: 'Couleur',
+                render: (data) => {
+                  return (
+                    <Box
                       sx={{
-                        borderBottom:
-                          index === shop.status!.length - 1
-                            ? 'none'
-                            : '1px solid rgba(224, 224, 224, 1)',
+                        width: '50px',
+                        height: '15px',
+                        backgroundColor: data.color as string,
+                        borderRadius: '50px',
+                        display: 'inline-block',
                       }}
-                    >
-                      {item.name}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom:
-                          index === shop.status!.length - 1
-                            ? 'none'
-                            : '1px solid rgba(224, 224, 224, 1)',
-                      }}
-                    >
-                      {item.description}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom:
-                          index === shop.status!.length - 1
-                            ? 'none'
-                            : '1px solid rgba(224, 224, 224, 1)',
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          width: '50px',
-                          height: '15px',
-                          backgroundColor: item.color,
-                          borderRadius: '50px',
-                          display: 'inline-block',
-                          // marginRight: '5px',
-                        }}
-                      ></Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    ></Box>
+                  );
+                },
+              },
+            ]}
+          />
         )}
       </Stack>
       <StatusFormDialog
