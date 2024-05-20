@@ -5171,6 +5171,13 @@ co@^4.6.0:
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
   integrity sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==
 
+codes-postaux@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/codes-postaux/-/codes-postaux-4.1.0.tgz#871bdec6917b574cf18ffee73058121a5bded417"
+  integrity sha512-RBLXsQatRnmNI+o6SztWarb38tvkWoW3v8kpT3yBlr/J5gMKYZWn4NEa9LdIC7GU3GTqVwLS9foQMJl8CI/fFA==
+  dependencies:
+    lodash "^4.17.21"
+
 collect-v8-coverage@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/collect-v8-coverage/-/collect-v8-coverage-1.0.2.tgz#c0b29bcd33bcd0779a1344c2136051e6afd3d9e9"
