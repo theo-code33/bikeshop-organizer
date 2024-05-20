@@ -42,6 +42,12 @@ const routes: Routes = {
     title: 'Paramètres',
     restricted: true,
   },
+  [Pages.Clients]: {
+    component: asyncComponentLoader(() => import('../pages/Clients')),
+    path: '/clients',
+    title: 'Clients',
+    restricted: true,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('../pages/NotFound')),
     path: '*',

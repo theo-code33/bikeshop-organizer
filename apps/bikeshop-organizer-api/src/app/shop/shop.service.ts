@@ -23,6 +23,7 @@ export class ShopService {
       relations: [
         'user',
         'clients',
+        'clients.bikes',
         'brands',
         'taskCategories',
         'taskCategories.taskCategoryStatus',

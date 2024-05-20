@@ -1,18 +1,12 @@
+import { Button, Stack, Typography } from '@mui/material';
 import {
-  Button,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
-import { Shop, TaskCategory } from '@bikeshop-organizer/types';
+  Shop,
+  TaskCategory,
+  TaskCategoryStatus,
+} from '@bikeshop-organizer/types';
 import { useState } from 'react';
 import TaskCategoryFormDialog from '../TaskCategory/TaskCategoryFormDialog';
+import TableCustom from '../TableCustom';
 
 const TaskCategorySection = ({ shop }: { shop: Shop }) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -24,9 +18,9 @@ const TaskCategorySection = ({ shop }: { shop: Shop }) => {
     setOpenDialog(true);
     setCurrentTaskCategory(undefined);
   };
-  const handleOpenUpdateDialog = (taskCategory: TaskCategory) => {
+  const handleOpenUpdateDialog = (taskCategory: unknown) => {
     setOpenDialog(true);
-    setCurrentTaskCategory(taskCategory);
+    setCurrentTaskCategory(taskCategory as TaskCategory);
   };
 
   const handleCloseDialog = () => {
@@ -53,66 +47,44 @@ const TaskCategorySection = ({ shop }: { shop: Shop }) => {
             Aucune prestation n'a été créée pour le moment.
           </Typography>
         ) : (
-          <TableContainer
-            component={Paper}
-            elevation={0}
-            sx={{
-              width: 'auto',
-              borderRadius: '15px',
-              padding: '10px',
-            }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Nom</TableCell>
-                  <TableCell>Statut</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {shop.taskCategories?.map((taskCategory, index) => (
-                  <TableRow
-                    key={taskCategory.id}
-                    hover
-                    onClick={() => handleOpenUpdateDialog(taskCategory)}
-                    sx={{
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <TableCell
-                      sx={{
-                        borderBottom:
-                          index === shop.taskCategories!.length - 1
-                            ? 'none'
-                            : '1px solid rgba(224, 224, 224, 1)',
-                      }}
-                    >
-                      <Typography variant="subtitle2">
-                        {taskCategory.name}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        borderBottom:
-                          index === shop.taskCategories!.length - 1
-                            ? 'none'
-                            : '1px solid rgba(224, 224, 224, 1)',
-                      }}
-                    >
-                      {taskCategory.taskCategoryStatus?.map((item, i) => {
-                        return (
-                          item.status.name +
-                          (i < taskCategory.taskCategoryStatus!.length - 1
-                            ? ' / '
-                            : '')
-                        );
-                      })}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <TableCustom
+            datas={
+              (shop.taskCategories as unknown as {
+                id: string;
+                name: string;
+                taskCategoryStatus: string[];
+              }[]) || []
+            }
+            onRowClick={handleOpenUpdateDialog}
+            columns={[
+              { key: 'name', label: 'Nom' },
+              {
+                key: 'taskCategoryStatus',
+                label: 'Statut',
+                render: (data) => {
+                  return (
+                    <Typography variant="body2">
+                      {(
+                        data as unknown as TaskCategory
+                      ).taskCategoryStatus?.map(
+                        (item: TaskCategoryStatus, i: number) => {
+                          return (
+                            item.status.name +
+                            (i <
+                            (data as unknown as TaskCategory)
+                              .taskCategoryStatus!.length -
+                              1
+                              ? ' / '
+                              : '')
+                          );
+                        }
+                      )}
+                    </Typography>
+                  );
+                },
+              },
+            ]}
+          />
         )}
       </Stack>
       <TaskCategoryFormDialog

@@ -134,7 +134,7 @@ const baseTheme = createTheme({
     primary: {
       main: '#5D04D9',
       light: '#B582FD',
-      dark: '#2D046B',
+      dark: '#4B03AF',
       xlight: '#D3B4FE',
       xdark: '#36027D',
     },
