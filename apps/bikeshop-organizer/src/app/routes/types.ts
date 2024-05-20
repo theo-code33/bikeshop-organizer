@@ -11,6 +11,7 @@ enum Pages {
   ResetPassword,
   User,
   Settings,
+  Clients,
   NotFound,
 }
 
