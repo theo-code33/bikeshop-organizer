@@ -3,12 +3,33 @@ import MainLayout from '../../layout/Main/Main.layout';
 import Title from '../../components/Title/Title';
 import BrandSection from '../../components/Brand/BrandSection';
 import { useState } from 'react';
-import { Brand } from '@bikeshop-organizer/types';
+import { Brand, ProductCategory } from '@bikeshop-organizer/types';
 import BrandFormDialog from '../../components/Brand/BrandFormDialog';
+import ProductCategorySection from '../../components/ProductCategory/ProductCategorySection';
+import ProductCategoryFormDialog from '../../components/ProductCategory/ProductCategoryFormDialog';
 
 const Shop = () => {
+  const [openProductCategoryDialog, setOpenProductCategoryDialog] =
+    useState<boolean>(false);
+  const [currentProductCategory, setCurrentProductCategory] = useState<
+    ProductCategory | undefined
+  >();
+
   const [openBrandDialog, setOpenBrandDialog] = useState<boolean>(false);
   const [currentBrand, setCurrentBrand] = useState<Brand | undefined>();
+
+  const handleOpenCreateProductCategoryDialog = () => {
+    setOpenProductCategoryDialog(true);
+    setCurrentProductCategory(undefined);
+  };
+  const handleOpenUpdateProductCategoryDialog = (productCategory: unknown) => {
+    setOpenProductCategoryDialog(true);
+    setCurrentProductCategory(productCategory as ProductCategory);
+  };
+  const handleCloseProductCategoryDialog = () => {
+    setOpenProductCategoryDialog(false);
+    setCurrentProductCategory(undefined);
+  };
 
   const handleOpenCreateBrandDialog = () => {
     setOpenBrandDialog(true);
@@ -18,7 +39,6 @@ const Shop = () => {
     setOpenBrandDialog(true);
     setCurrentBrand(brand as Brand);
   };
-
   const handleCloseBrandDialog = () => {
     setOpenBrandDialog(false);
     setCurrentBrand(undefined);
@@ -28,11 +48,20 @@ const Shop = () => {
       <>
         <Stack gap="50px">
           <Title title="Boutique" />
+          <ProductCategorySection
+            handleOpenCreateDialog={handleOpenCreateProductCategoryDialog}
+            onRowClick={handleOpenUpdateProductCategoryDialog}
+          />
           <BrandSection
             handleOpenCreateDialog={handleOpenCreateBrandDialog}
             onRowClick={handleOpenUpdateBrandDialog}
           />
         </Stack>
+        <ProductCategoryFormDialog
+          open={openProductCategoryDialog}
+          onClose={handleCloseProductCategoryDialog}
+          currentProductCategory={currentProductCategory}
+        />
         <BrandFormDialog
           open={openBrandDialog}
           onClose={handleCloseBrandDialog}
