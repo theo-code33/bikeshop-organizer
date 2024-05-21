@@ -79,7 +79,7 @@ const BrandFormDialog = ({
           };
         });
         enqueueSnackbar('Marque créée avec succès', { variant: 'success' });
-        onClose();
+        handleClose();
       } catch (error) {
         console.error(error);
         enqueueSnackbar('Erreur lors de la création de la marque', {
