@@ -24,7 +24,7 @@ export class Product {
   @ManyToOne(() => Brand, (brand) => brand.id)
   brand?: Brand;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'float' })
   price: number;
 
   @ManyToOne(() => Shop, (shop) => shop.id)
@@ -35,7 +35,7 @@ export class Product {
   tasks?: Task[];
 
   @ManyToOne(() => ProductCategory, (productCategory) => productCategory.id)
-  category?: ProductCategory;
+  category: ProductCategory;
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
