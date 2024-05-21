@@ -25,6 +25,7 @@ export class ShopService {
         'clients',
         'clients.bikes',
         'brands',
+        'categories',
         'taskCategories',
         'taskCategories.taskCategoryStatus',
         'taskCategories.taskCategoryStatus.status',
