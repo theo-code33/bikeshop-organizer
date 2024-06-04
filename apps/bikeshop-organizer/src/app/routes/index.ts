@@ -48,6 +48,12 @@ const routes: Routes = {
     title: 'Clients',
     restricted: true,
   },
+  [Pages.Shop]: {
+    component: asyncComponentLoader(() => import('../pages/Shop')),
+    path: '/boutique',
+    title: 'Boutique',
+    restricted: true,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('../pages/NotFound')),
     path: '*',

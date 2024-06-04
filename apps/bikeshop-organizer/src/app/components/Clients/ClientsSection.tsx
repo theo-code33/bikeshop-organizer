@@ -9,6 +9,12 @@ const ClientsSection = ({
   shop: Shop;
   onRowClick: (data: unknown) => void;
 }) => {
+  if (!shop.clients || shop.clients.length === 0)
+    return (
+      <Typography variant="subtitle2">
+        Aucune client n'a été ajoutée pour le moment
+      </Typography>
+    );
   return (
     <TableCustom
       datas={

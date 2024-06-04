@@ -64,7 +64,10 @@ const MainLayout = ({ children }: { children: JSX.Element }) => {
                 <IconTools color={theme.palette.primary.xdark} opacity={0.7} />
                 Prestations
               </MenuItem>
-              <MenuItem onClick={() => navigate('/shop')} sx={menuItemStyle}>
+              <MenuItem
+                onClick={() => navigate('/boutique')}
+                sx={menuItemStyle}
+              >
                 <IconShoppingBag
                   color={theme.palette.primary.xdark}
                   opacity={0.7}

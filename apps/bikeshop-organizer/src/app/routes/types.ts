@@ -12,6 +12,7 @@ enum Pages {
   User,
   Settings,
   Clients,
+  Shop,
   NotFound,
 }
 
