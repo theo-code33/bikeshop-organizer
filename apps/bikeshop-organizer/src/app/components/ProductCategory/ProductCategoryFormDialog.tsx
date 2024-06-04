@@ -20,6 +20,7 @@ import { useShop } from '../../context/ShopContext/ShopContext';
 import deleteProductCategory from '../../utils/api/productCategory/delete-product-category';
 import createProductCategory from '../../utils/api/productCategory/create-product-category';
 import updateProductCategory from '../../utils/api/productCategory/update-product-category';
+import generateError from '../../utils/error/error';
 
 const ProductCategoryFormDialog = ({
   open,
@@ -68,10 +69,13 @@ const ProductCategoryFormDialog = ({
           variant: 'success',
         });
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la modification de la catégorie', {
-          variant: 'error',
-        });
+        generateError(
+          enqueueSnackbar,
+          error,
+          'catégorie',
+          'modification',
+          true
+        );
       }
     } else {
       try {
@@ -94,10 +98,7 @@ const ProductCategoryFormDialog = ({
           variant: 'success',
         });
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la création de la catégorie', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'catégorie', 'création', true);
       }
     }
   };
@@ -125,11 +126,11 @@ const ProductCategoryFormDialog = ({
       });
       handleCloseConfirmDeleteModal();
       handleClose();
-    } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression de la marque', {
-        variant: 'error',
+      enqueueSnackbar('Catégorie supprimée avec succès', {
+        variant: 'success',
       });
+    } catch (error) {
+      generateError(enqueueSnackbar, error, 'catégorie', 'suppression', true);
     }
   };
 

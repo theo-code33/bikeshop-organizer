@@ -20,6 +20,7 @@ import createBrand from '../../utils/api/brand/create-brand';
 import { useShop } from '../../context/ShopContext/ShopContext';
 import updateBrand from '../../utils/api/brand/update-brand';
 import deleteBrand from '../../utils/api/brand/delete-brand';
+import generateError from '../../utils/error/error';
 
 const BrandFormDialog = ({
   open,
@@ -63,10 +64,7 @@ const BrandFormDialog = ({
         });
         enqueueSnackbar('Marque modifiée avec succès', { variant: 'success' });
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la modification de la marque', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'marque', 'modification', true);
       }
     } else {
       try {
@@ -81,10 +79,7 @@ const BrandFormDialog = ({
         enqueueSnackbar('Marque créée avec succès', { variant: 'success' });
         handleClose();
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la création de la marque', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'marque', 'création', true);
       }
     }
   };
@@ -111,10 +106,7 @@ const BrandFormDialog = ({
       handleCloseConfirmDeleteModal();
       handleClose();
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression de la marque', {
-        variant: 'error',
-      });
+      generateError(enqueueSnackbar, error, 'marque', 'suppression', true);
     }
   };
 
