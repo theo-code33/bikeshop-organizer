@@ -49,6 +49,7 @@ import deleteTaskCategoryStatus from '../../utils/api/taskCategoryStatus/delete-
 import updateTaskCategory from '../../utils/api/taskCategory/update-task-category';
 import createTaskCategoryStatus from '../../utils/api/taskCategoryStatus/create-task-category-status';
 import updateTaskCategoryStatus from '../../utils/api/taskCategoryStatus/update-task-category-status';
+import generateError from '../../utils/error/error';
 
 const TaskCategoryFormDialog = ({
   open,
@@ -200,10 +201,13 @@ const TaskCategoryFormDialog = ({
           variant: 'success',
         });
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la modification de la prestation', {
-          variant: 'error',
-        });
+        generateError(
+          enqueueSnackbar,
+          error,
+          'prestation',
+          'modification',
+          true
+        );
       }
     } else {
       try {
@@ -234,10 +238,7 @@ const TaskCategoryFormDialog = ({
         });
         handleCloseDrawer();
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la création de la prestation', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'prestation', 'création', true);
       }
     }
   };
@@ -267,10 +268,7 @@ const TaskCategoryFormDialog = ({
         variant: 'success',
       });
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression de la prestation', {
-        variant: 'error',
-      });
+      generateError(enqueueSnackbar, error, 'prestation', 'suppression', true);
     } finally {
       handleCloseConfirmDeleteModal();
       handleCloseDrawer();
@@ -352,10 +350,7 @@ const TaskCategoryFormDialog = ({
       );
       setSelectedStatuses(newStatuses);
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression du statut', {
-        variant: 'error',
-      });
+      generateError(enqueueSnackbar, error, 'statut', 'suppression', true);
     }
   };
 

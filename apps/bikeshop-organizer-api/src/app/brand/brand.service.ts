@@ -11,9 +11,16 @@ export class BrandService {
     @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>
   ) {}
   async create(createBrandDto: CreateBrandDto) {
-    const brandCreated = await this.brandRepository.save(createBrandDto);
-    const brand = await this.findOne(brandCreated.id);
-    return brand;
+    try {
+      const brandCreated = await this.brandRepository.save(createBrandDto);
+      const brand = await this.findOne(brandCreated.id);
+      return brand;
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   async findByShop(shopId: string) {
@@ -35,8 +42,15 @@ export class BrandService {
   }
 
   async update(id: string, updateBrandDto: UpdateBrandDto) {
-    await this.brandRepository.update(id, updateBrandDto);
-    return await this.findOne(id);
+    try {
+      await this.brandRepository.update(id, updateBrandDto);
+      return await this.findOne(id);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   async remove(id: string) {

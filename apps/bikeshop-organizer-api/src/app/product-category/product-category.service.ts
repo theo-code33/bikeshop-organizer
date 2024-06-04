@@ -12,11 +12,18 @@ export class ProductCategoryService {
     private readonly productCategoryRepository: Repository<ProductCategory>
   ) {}
   async create(createProductCategoryDto: CreateProductCategoryDto) {
-    const createdProductCategory = await this.productCategoryRepository.save(
-      createProductCategoryDto
-    );
-    const productCategory = await this.findOne(createdProductCategory.id);
-    return productCategory;
+    try {
+      const createdProductCategory = await this.productCategoryRepository.save(
+        createProductCategoryDto
+      );
+      const productCategory = await this.findOne(createdProductCategory.id);
+      return productCategory;
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   async findAllByShop(shopId: string) {
@@ -43,9 +50,16 @@ export class ProductCategoryService {
   }
 
   async update(id: string, updateProductCategoryDto: UpdateProductCategoryDto) {
-    await this.productCategoryRepository.update(id, updateProductCategoryDto);
-    const productCategory = await this.findOne(id);
-    return productCategory;
+    try {
+      await this.productCategoryRepository.update(id, updateProductCategoryDto);
+      const productCategory = await this.findOne(id);
+      return productCategory;
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   async remove(id: string) {

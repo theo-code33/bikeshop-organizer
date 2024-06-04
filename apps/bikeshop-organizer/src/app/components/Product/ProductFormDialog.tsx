@@ -26,6 +26,7 @@ import createProduct from '../../utils/api/product/create-product';
 import { ProductDto } from '../../utils/api/product/types';
 import deleteProduct from '../../utils/api/product/delete-product';
 import updateProduct from '../../utils/api/product/update-product';
+import generateError from '../../utils/error/error';
 
 const ProductFormDialog = ({
   open,
@@ -96,10 +97,7 @@ const ProductFormDialog = ({
           variant: 'success',
         });
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la modification du produit', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'produit', 'modification', false);
       }
     } else {
       try {
@@ -116,10 +114,7 @@ const ProductFormDialog = ({
         });
         handleClose();
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la création du produit', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'produit', 'création', false);
       }
     }
   };
@@ -158,10 +153,7 @@ const ProductFormDialog = ({
       handleCloseConfirmDeleteModal();
       handleClose();
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression du produit', {
-        variant: 'error',
-      });
+      generateError(enqueueSnackbar, error, 'produit', 'suppression', false);
     }
   };
 

@@ -21,6 +21,7 @@ import DrawerCustom from '../DrawerCustom/DrawerCustom';
 import { useEffect, useState } from 'react';
 import updateStatus from '../../utils/api/status/update-status';
 import deleteStatus from '../../utils/api/status/delete-status';
+import generateError from '../../utils/error/error';
 
 const StatusFormDialog = ({
   open,
@@ -84,10 +85,7 @@ const StatusFormDialog = ({
         enqueueSnackbar('Statut modifié', { variant: 'success' });
         onClose();
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la modification du statut', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'statut', 'modification', false);
       }
     } else {
       const statusDto = {
@@ -109,9 +107,7 @@ const StatusFormDialog = ({
         enqueueSnackbar('Statut créé', { variant: 'success' });
         onClose();
       } catch (error) {
-        enqueueSnackbar('Erreur lors de la création du statut', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'statut', 'création', false);
       }
     }
   };
@@ -144,10 +140,7 @@ const StatusFormDialog = ({
       });
       enqueueSnackbar('Statut supprimé', { variant: 'success' });
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression du statut', {
-        variant: 'error',
-      });
+      generateError(enqueueSnackbar, error, 'statut', 'suppression', false);
     } finally {
       handleCloseConfirmDeleteModal();
       handleClose();

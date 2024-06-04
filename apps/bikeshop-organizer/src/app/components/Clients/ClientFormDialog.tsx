@@ -25,6 +25,7 @@ import deleteClient from '../../utils/api/client/delete-client';
 import updateClient from '../../utils/api/client/update-client';
 import { MuiTelInput } from 'mui-tel-input';
 import getCityByPostalCode from '../../utils/postalCode/get-city-by-postal-code';
+import generateError from '../../utils/error/error';
 
 const ClientFormDialog = ({
   open,
@@ -81,10 +82,7 @@ const ClientFormDialog = ({
       handleCloseConfirmDeleteModal();
       handleClose();
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar('Erreur lors de la suppression du client', {
-        variant: 'error',
-      });
+      generateError(enqueueSnackbar, error, 'client', 'suppression', false);
     }
   };
 
@@ -131,10 +129,7 @@ const ClientFormDialog = ({
           variant: 'success',
         });
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la modification du client', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'client', 'modification', false);
       }
     } else {
       try {
@@ -151,10 +146,7 @@ const ClientFormDialog = ({
         });
         handleClose();
       } catch (error) {
-        console.error(error);
-        enqueueSnackbar('Erreur lors de la création du client', {
-          variant: 'error',
-        });
+        generateError(enqueueSnackbar, error, 'client', 'création', false);
       }
     }
   };
