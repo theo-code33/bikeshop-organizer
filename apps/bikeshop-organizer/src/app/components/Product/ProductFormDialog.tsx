@@ -32,11 +32,13 @@ const ProductFormDialog = ({
   onClose,
   currentProduct,
   setOpenProductCategoryDialog,
+  setOpenBrandDialog,
 }: {
   open: boolean;
   onClose: () => void;
   currentProduct?: Product;
   setOpenProductCategoryDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenBrandDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] =
     useState<boolean>(false);
@@ -167,6 +169,9 @@ const ProductFormDialog = ({
     setOpenProductCategoryDialog(true);
   };
 
+  const handleCreateBrand = () => {
+    setOpenBrandDialog(true);
+  };
   const fetchBrands = async () => {
     if (!shop) return;
     try {
@@ -376,7 +381,7 @@ const ProductFormDialog = ({
               <Typography variant="h6" color="primary.dark">
                 Marque
               </Typography>
-              <Stack direction="row" gap="10px">
+              <Stack direction="row" gap="10px" alignItems="center">
                 <Controller
                   name="brand"
                   control={control}
@@ -399,6 +404,22 @@ const ProductFormDialog = ({
                     );
                   }}
                 />
+                <Typography
+                  color="neutralDark.400"
+                  width="max-content"
+                  minWidth="max-content"
+                >
+                  - ou -
+                </Typography>
+                <Button
+                  variant="outlined"
+                  onClick={handleCreateBrand}
+                  sx={{
+                    minWidth: 'max-content',
+                  }}
+                >
+                  Créer une marque
+                </Button>
               </Stack>
             </Stack>
           </Stack>

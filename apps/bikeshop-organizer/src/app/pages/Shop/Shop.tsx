@@ -84,6 +84,7 @@ const Shop = () => {
           onClose={handleCloseProductDialog}
           currentProduct={currentProduct}
           setOpenProductCategoryDialog={setOpenProductCategoryDialog}
+          setOpenBrandDialog={setOpenBrandDialog}
         />
         <ProductCategoryFormDialog
           open={openProductCategoryDialog}
