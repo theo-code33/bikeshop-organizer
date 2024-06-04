@@ -16,7 +16,7 @@ import { Product } from '../../product/entities/product.entity';
 export class Brand {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column()
+  @Column({ unique: true })
   name: string;
   @OneToMany(() => Bike, (bike) => bike.brand)
   bikes?: Bike[];
