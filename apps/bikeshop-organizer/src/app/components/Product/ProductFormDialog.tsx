@@ -31,10 +31,12 @@ const ProductFormDialog = ({
   open,
   onClose,
   currentProduct,
+  setOpenProductCategoryDialog,
 }: {
   open: boolean;
   onClose: () => void;
   currentProduct?: Product;
+  setOpenProductCategoryDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] =
     useState<boolean>(false);
@@ -159,6 +161,10 @@ const ProductFormDialog = ({
         variant: 'error',
       });
     }
+  };
+
+  const handleCreateCategory = () => {
+    setOpenProductCategoryDialog(true);
   };
 
   const fetchBrands = async () => {
@@ -322,7 +328,7 @@ const ProductFormDialog = ({
                   *
                 </span>
               </Typography>
-              <Stack direction="row" gap="10px">
+              <Stack direction="row" gap="10px" alignItems="center">
                 <Controller
                   name="category"
                   control={control}
@@ -348,6 +354,22 @@ const ProductFormDialog = ({
                     );
                   }}
                 />
+                <Typography
+                  color="neutralDark.400"
+                  width="max-content"
+                  minWidth="max-content"
+                >
+                  - ou -
+                </Typography>
+                <Button
+                  variant="outlined"
+                  onClick={handleCreateCategory}
+                  sx={{
+                    minWidth: 'max-content',
+                  }}
+                >
+                  Créer une catégorie
+                </Button>
               </Stack>
             </Stack>
             <Stack gap="10px">
