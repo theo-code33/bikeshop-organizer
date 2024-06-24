@@ -1,5 +1,6 @@
 import { DeepPartial } from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
+import { CreateBikeDto } from '../../bike/dto/create-bike.dto';
 
 export class CreateClientDto {
   firstName: string;
@@ -10,4 +11,5 @@ export class CreateClientDto {
   address: string;
   postalCode: string;
   city: string;
+  bikes?: CreateBikeDto[];
 }
