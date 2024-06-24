@@ -8,5 +8,6 @@ import { Bike } from './entities/bike.entity';
   imports: [TypeOrmModule.forFeature([Bike])],
   controllers: [BikeController],
   providers: [BikeService],
+  exports: [BikeService],
 })
 export class BikeModule {}
