@@ -1,4 +1,4 @@
-import { Client } from '@bikeshop-organizer/types';
+import { Bike, Client } from '@bikeshop-organizer/types';
 import DrawerCustom from '../DrawerCustom/DrawerCustom';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -26,6 +26,9 @@ import updateClient from '../../utils/api/client/update-client';
 import { MuiTelInput } from 'mui-tel-input';
 import getCityByPostalCode from '../../utils/postalCode/get-city-by-postal-code';
 import generateError from '../../utils/error/error';
+import BikeSection from '../Bike/BikeSection';
+import BikeFormDialog from '../Bike/BikeFormDialog';
+import { CreateBikeDto } from '../../utils/api/bike/types';
 
 const ClientFormDialog = ({
   open,
@@ -39,6 +42,11 @@ const ClientFormDialog = ({
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] =
     useState<boolean>(false);
   const [citiesOptions, setCitiesOptions] = useState<string[]>([]);
+  const [openBikeFormDialog, setOpenBikeFormDialog] = useState<boolean>(false);
+  const [bikes, setBikes] = useState<Bike[] | CreateBikeDto[]>([]);
+  const [currentBike, setCurrentBike] = useState<
+    Bike | CreateBikeDto | undefined
+  >();
 
   const { handleSubmit, control, setValue } = useForm();
   const { enqueueSnackbar } = useSnackbar();
@@ -54,7 +62,16 @@ const ClientFormDialog = ({
     setValue('postalCode', '');
     setValue('city', '');
     setCitiesOptions([]);
+    setBikes([]);
     onClose();
+  };
+
+  const handleCloseBikeFormDialog = () => {
+    setOpenBikeFormDialog(false);
+  };
+
+  const handleOpenBikeFormDialog = () => {
+    setOpenBikeFormDialog(true);
   };
 
   const handleOpenConfirmDeleteModal = () => {
@@ -133,6 +150,9 @@ const ClientFormDialog = ({
       }
     } else {
       try {
+        if (bikes.length > 0) {
+          newClient.bikes = bikes as CreateBikeDto[];
+        }
         const clientCreated = await createClient(newClient);
         setShop((prev) => {
           if (!prev) return prev;
@@ -177,6 +197,9 @@ const ClientFormDialog = ({
         currentClient.phoneNumber = '+33' + currentClient.phoneNumber.slice(1);
       }
       setValue('phoneNumber', currentClient.phoneNumber);
+      if (currentClient.bikes) {
+        setBikes(currentClient.bikes);
+      }
     }
   }, [currentClient, setValue]);
 
@@ -421,16 +444,6 @@ const ClientFormDialog = ({
                           <InputLabel htmlFor="city" required>
                             Ville
                           </InputLabel>
-                          {/* <TextField
-                            type="text"
-                            id="city"
-                            name="city"
-                            fullWidth
-                            onChange={onChange}
-                            value={value}
-                            error={!!error}
-                            required
-                          /> */}
                           <Select
                             value={value}
                             id="city"
@@ -455,6 +468,11 @@ const ClientFormDialog = ({
                 </Stack>
               </Stack>
             </Stack>
+            <BikeSection
+              bikes={bikes}
+              setCurrentBike={setCurrentBike}
+              handleOpenBikeFormDialog={handleOpenBikeFormDialog}
+            />
           </Stack>
           <Stack direction="row" width="100%" justifyContent="space-between">
             <Button variant="text" onClick={handleClose}>
@@ -492,6 +510,14 @@ const ClientFormDialog = ({
           </Button>
         </DialogActions>
       </Dialog>
+      <BikeFormDialog
+        open={openBikeFormDialog}
+        onClose={handleCloseBikeFormDialog}
+        setBikes={setBikes}
+        clientId={currentClient?.id}
+        currentBike={currentBike}
+        setCurrentBike={setCurrentBike}
+      />
     </>
   );
 };
