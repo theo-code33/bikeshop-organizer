@@ -24,6 +24,7 @@ export class ShopService {
         'user',
         'clients',
         'clients.bikes',
+        'clients.bikes.brand',
         'products',
         'products.brand',
         'products.category',
