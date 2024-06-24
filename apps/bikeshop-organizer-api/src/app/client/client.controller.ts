@@ -19,17 +19,41 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Roles as RolesEnum } from '@bikeshop-organizer/types';
 import { IRequest } from '../auth/types/request.type';
+import { BikeService } from '../bike/bike.service';
 
 @Controller('client')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class ClientController {
-  constructor(private readonly clientService: ClientService) {}
+  constructor(
+    private readonly clientService: ClientService,
+    private readonly bikeService: BikeService
+  ) {}
 
   @Post()
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
-  create(@Body() createClientDto: CreateClientDto) {
+  async create(@Body() createClientDto: CreateClientDto) {
     try {
-      return this.clientService.create(createClientDto);
+      const clientCreated = await this.clientService.create(createClientDto);
+      if (!createClientDto.bikes) {
+        return clientCreated;
+      }
+      if (createClientDto.bikes) {
+        for (const bike of createClientDto.bikes) {
+          if (bike.brand.name) {
+            delete bike.brand.name;
+          }
+
+          await this.bikeService.create({
+            ...bike,
+            client: { id: clientCreated.id },
+          });
+        }
+        const clientCreatedWithBikes = await this.clientService.findOne(
+          clientCreated.id
+        );
+        return clientCreatedWithBikes;
+      }
+      return clientCreated;
     } catch (error) {
       throw new HttpException(
         error.message,
@@ -91,8 +115,14 @@ export class ClientController {
 
   @Delete(':id')
   @Roles(RolesEnum.ADMIN, RolesEnum.SHOP)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     try {
+      const client = await this.clientService.findOne(id);
+      if (client.bikes) {
+        client.bikes.forEach(async (bike) => {
+          await this.bikeService.remove(bike.id);
+        });
+      }
       return this.clientService.remove(id);
     } catch (error) {
       throw new HttpException(
