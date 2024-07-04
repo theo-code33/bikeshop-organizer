@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Bike } from '../../bike/entities/bike.entity';
+import { Task } from '../../task/entities/task.entity';
 
 @Entity()
 export class Client {
@@ -33,6 +34,8 @@ export class Client {
   city: string;
   @OneToMany(() => Bike, (bike) => bike.client)
   bikes?: Bike[];
+  @OneToMany(() => Task, (task) => task.client)
+  tasks?: Task[];
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()
