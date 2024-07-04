@@ -20,7 +20,7 @@ export class ClientService {
   async findAllByShop(shopId: string) {
     return await this.clientRepository.find({
       where: { shop: { id: shopId } },
-      relations: ['shop', 'bikes'],
+      relations: ['shop', 'bikes', 'bikes.brand'],
     });
   }
 
