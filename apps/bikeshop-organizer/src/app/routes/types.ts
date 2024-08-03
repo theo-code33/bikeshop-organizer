@@ -13,6 +13,7 @@ enum Pages {
   Settings,
   Clients,
   Shop,
+  TasksCategories,
   NotFound,
 }
 

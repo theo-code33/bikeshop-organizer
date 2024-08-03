@@ -48,6 +48,12 @@ const routes: Routes = {
     title: 'Clients',
     restricted: true,
   },
+  [Pages.TasksCategories]: {
+    component: asyncComponentLoader(() => import('../pages/TaskCategory')),
+    path: '/prestations/:id',
+    title: 'Prestations',
+    restricted: true,
+  },
   [Pages.Shop]: {
     component: asyncComponentLoader(() => import('../pages/Shop')),
     path: '/boutique',

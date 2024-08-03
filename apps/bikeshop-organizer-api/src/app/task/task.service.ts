@@ -4,6 +4,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class TaskService {
@@ -12,6 +13,9 @@ export class TaskService {
     private taskRepository: Repository<Task>
   ) {}
   async create(createTaskDto: CreateTaskDto) {
+    if (!createTaskDto.startDate || createTaskDto.startDate === '') {
+      createTaskDto.startDate = dayjs().format();
+    }
     const taskCreated = await this.taskRepository.save(createTaskDto);
     const task = await this.findOne(taskCreated.id);
     return task;
@@ -24,14 +28,40 @@ export class TaskService {
           id: taskCategoryId,
         },
       },
-      relations: ['taskCategory', 'taskCategoryStatus', 'bike'],
+      relations: [
+        'taskCategory',
+        'taskCategoryStatus',
+        'taskCategoryStatus.status',
+        'bike',
+        'bike.brand',
+        'client',
+        'client.bikes',
+        'client.bikes.brand',
+        'products',
+        'products.product',
+        'products.product.brand',
+        'products.product.category',
+      ],
     });
   }
 
   async findOne(id: string) {
     const task = await this.taskRepository.findOne({
       where: { id },
-      relations: ['taskCategory', 'taskCategoryStatus', 'bike'],
+      relations: [
+        'taskCategory',
+        'taskCategoryStatus',
+        'taskCategoryStatus.status',
+        'bike',
+        'bike.brand',
+        'client',
+        'client.bikes',
+        'client.bikes.brand',
+        'products',
+        'products.product',
+        'products.product.brand',
+        'products.product.category',
+      ],
     });
     if (!task) {
       throw new HttpException('Task not found', HttpStatus.NOT_FOUND);

@@ -6,6 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,6 +14,7 @@ import { Brand } from '../../brand/entities/brand.entity';
 import { Shop } from '../../shop/entities/shop.entity';
 import { Task } from '../../task/entities/task.entity';
 import { ProductCategory } from '../../product-category/entities/product-category.entity';
+import { TaskProductItem } from '../../task-product-item/entities/task-product-item.entity';
 
 @Entity()
 export class Product {
@@ -36,6 +38,11 @@ export class Product {
 
   @ManyToOne(() => ProductCategory, (productCategory) => productCategory.id)
   category: ProductCategory;
+  @OneToMany(
+    () => TaskProductItem,
+    (taskProductItem) => taskProductItem.product
+  )
+  taskProductItem?: TaskProductItem[];
   @CreateDateColumn()
   createdAt: Date;
   @UpdateDateColumn()

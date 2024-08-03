@@ -105,7 +105,7 @@ describe('ClientService', () => {
       const clients = await service.findAllByShop(shop.id);
       expect(clientRepository.find).toHaveBeenCalledWith({
         where: { shop: { id: shop.id } },
-        relations: ['shop', 'bikes'],
+        relations: ['shop', 'bikes', 'bikes.brand'],
       });
       expect(clients).toEqual([client]);
     });
@@ -120,7 +120,7 @@ describe('ClientService', () => {
       const clientFound = await service.findOne(client.id);
       expect(clientRepository.findOne).toHaveBeenCalledWith({
         where: { id: client.id },
-        relations: ['shop', 'bikes'],
+        relations: ['shop', 'bikes', 'bikes.brand'],
       });
       expect(clientFound).toEqual(client);
     });
@@ -148,7 +148,7 @@ describe('ClientService', () => {
       );
       expect(clientRepository.findOne).toHaveBeenCalledWith({
         where: { id: client.id },
-        relations: ['shop', 'bikes'],
+        relations: ['shop', 'bikes', 'bikes.brand'],
       });
       expect(clientUpdatedFound).toEqual(clientUpdated);
     });
