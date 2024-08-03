@@ -28,15 +28,16 @@ import { ProductModule } from './product/product.module';
 import { Product } from './product/entities/product.entity';
 import { ProductCategoryModule } from './product-category/product-category.module';
 import { ProductCategory } from './product-category/entities/product-category.entity';
+import { TaskProductItemModule } from './task-product-item/task-product-item.module';
 
-import * as Joi from 'joi';
+import Joi from 'joi';
+import { TaskProductItem } from './task-product-item/entities/task-product-item.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath:
-        process.env.NODE_ENV === 'production' ? '.env' : '.env.development',
+      envFilePath: '.env.development',
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid('development', 'production')
@@ -70,6 +71,7 @@ import * as Joi from 'joi';
         Task,
         Product,
         ProductCategory,
+        TaskProductItem,
       ],
       synchronize: true,
     }),
@@ -86,6 +88,7 @@ import * as Joi from 'joi';
     TaskModule,
     ProductModule,
     ProductCategoryModule,
+    TaskProductItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],
