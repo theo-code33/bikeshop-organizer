@@ -3,7 +3,7 @@ import { TaskCategory } from '../../task-category/entities/task-category.entity'
 import { TaskCategoryStatus } from '../../task-category-status/entities/task-category-status.entity';
 import { Bike } from '../../bike/entities/bike.entity';
 import { Client } from '../../client/entities/client.entity';
-import { Product } from '../../product/entities/product.entity';
+import { CreateTaskProductItemDto } from '../../task-product-item/dto/create-task-product-item.dto';
 
 export class CreateTaskDto {
   name: string;
@@ -11,7 +11,7 @@ export class CreateTaskDto {
   taskCategoryStatus: DeepPartial<TaskCategoryStatus>;
   bike: DeepPartial<Bike>;
   client: DeepPartial<Client>;
-  products?: DeepPartial<Product>[];
+  products?: CreateTaskProductItemDto[];
   startDate: string;
   endDate: string;
 }
