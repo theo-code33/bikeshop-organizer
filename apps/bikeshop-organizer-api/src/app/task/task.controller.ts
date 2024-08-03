@@ -45,6 +45,8 @@ export class TaskController {
           await this.taskProductItemService.create(taskProductItemDto);
         });
       }
+      const task = await this.taskService.findOne(taskCreated.id);
+      return task;
     } catch (error) {
       throw new HttpException(
         error.message,
