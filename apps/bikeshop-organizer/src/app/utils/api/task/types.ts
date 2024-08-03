@@ -13,7 +13,12 @@ export type TaskDto = {
   taskCategoryStatus: DeepPartial<TaskCategoryStatus>;
   bike: DeepPartial<Bike>;
   client: DeepPartial<Client>;
-  products?: DeepPartial<Product>[];
+  products?: TaskProductItemDto[];
   startDate?: string;
   endDate: string;
+};
+
+export type TaskProductItemDto = {
+  product: DeepPartial<Product>;
+  quantity: number;
 };
