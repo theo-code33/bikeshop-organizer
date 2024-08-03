@@ -37,6 +37,10 @@ export class TaskService {
         'client',
         'client.bikes',
         'client.bikes.brand',
+        'products',
+        'products.product',
+        'products.product.brand',
+        'products.product.category',
       ],
     });
   }
@@ -53,6 +57,10 @@ export class TaskService {
         'client',
         'client.bikes',
         'client.bikes.brand',
+        'products',
+        'products.product',
+        'products.product.brand',
+        'products.product.category',
       ],
     });
     if (!task) {
