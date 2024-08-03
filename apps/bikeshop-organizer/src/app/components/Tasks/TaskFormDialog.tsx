@@ -4,6 +4,7 @@ import {
   Product,
   Task,
   TaskCategory,
+  TaskProductItem,
 } from '@bikeshop-organizer/types';
 import DrawerCustom from '../DrawerCustom/DrawerCustom';
 import {
@@ -27,7 +28,7 @@ import { useSnackbar } from 'notistack';
 import { Controller, useForm } from 'react-hook-form';
 import useClients from '../../utils/hook/useClients';
 import { useEffect, useState } from 'react';
-import { IconTrash } from '@tabler/icons-react';
+import { IconMinus, IconPlus, IconTrash } from '@tabler/icons-react';
 import useProducts from '../../utils/hook/useProducts';
 import TableCustom from '../TableCustom';
 import dayjs from 'dayjs';
@@ -36,6 +37,7 @@ import createTask from '../../utils/api/task/create-task';
 import generateError from '../../utils/error/error';
 import { useTask } from '../../context/TaskContext/TaskContext';
 import deleteTask from '../../utils/api/task/delete-task';
+import updateTask from '../../utils/api/task/update-task';
 
 const TaskFormDialog = ({
   open,
@@ -50,7 +52,9 @@ const TaskFormDialog = ({
 }) => {
   const [clientSelected, setClientSelected] = useState<Client | undefined>();
   const [bikeSelected, setBikeSelected] = useState<Bike | undefined>();
-  const [productsSelected, setProductsSelected] = useState<Product[]>([]);
+  const [productsSelected, setProductsSelected] = useState<
+    { product: Product; quantity: number }[] | TaskProductItem[]
+  >([]);
   const [openConfirmDeleteModal, setOpenConfirmDeleteModal] =
     useState<boolean>(false);
 
@@ -83,6 +87,7 @@ const TaskFormDialog = ({
     try {
       const taskId = await deleteTask(currentTask.id);
       setTasks((prev) => prev.filter((task) => task.id !== taskId));
+      enqueueSnackbar('Tâche supprimée avec succès', { variant: 'success' });
       handleCloseConfirmDeleteModal();
       handleClose();
     } catch (error) {
@@ -135,7 +140,37 @@ const TaskFormDialog = ({
       return;
     }
     if (currentTask) {
-      // update task
+      const updatedTask: TaskDto = {
+        name: name,
+        taskCategory: taskCategory,
+        taskCategoryStatus: {
+          id: currentTask.taskCategoryStatus.id,
+        },
+        bike: bikeSelected as Bike,
+        client: clientSelected as Client,
+        endDate: formattedEndDate,
+      };
+      if (startDate) updatedTask.startDate = formattedStartDate;
+      if (productsSelected.length > 0)
+        updatedTask.products = productsSelected.map((product) => {
+          if ('id' in product) {
+            return product;
+          } else {
+            return {
+              product: { id: product.product.id },
+              quantity: product.quantity || 1,
+            };
+          }
+        });
+
+      const taskUpdated = await updateTask(currentTask.id, updatedTask);
+      setTasks((prev) =>
+        prev.map((task) => (task.id === taskUpdated.id ? taskUpdated : task))
+      );
+      if (taskUpdated.products) {
+        setProductsSelected(taskUpdated.products);
+      }
+      enqueueSnackbar('Tâche modifiée avec succès', { variant: 'success' });
     } else {
       try {
         const newTask: TaskDto = {
@@ -151,14 +186,18 @@ const TaskFormDialog = ({
           endDate: formattedEndDate,
         };
         if (startDate) newTask.startDate = formattedStartDate;
-        if (productsSelected.length > 0) newTask.products = productsSelected;
+        if (productsSelected.length > 0)
+          newTask.products = productsSelected.map((product) => ({
+            product: { id: product.product.id },
+            quantity: product.quantity || 1,
+          }));
         const taskCreated = await createTask(newTask);
         setTasks((prev) => [taskCreated, ...prev]);
-
-        handleClose();
         enqueueSnackbar('Tâche créée avec succès', { variant: 'success' });
       } catch (error) {
         generateError(enqueueSnackbar, error, 'tâche', 'création', true);
+      } finally {
+        handleClose();
       }
     }
   };
@@ -172,10 +211,6 @@ const TaskFormDialog = ({
       setValue('endDate', currentTask.endDate.split('T')[0]);
       setProductsSelected(currentTask.products || []);
       setClientSelected(currentTask.client);
-      console.log(currentTask.client);
-
-      console.log(currentTask.client);
-
       setBikeSelected(currentTask.bike);
     }
   }, [currentTask, setValue]);
@@ -443,7 +478,18 @@ const TaskFormDialog = ({
                               (product) => product.id === e.target.value
                             );
                             if (!product) return prev;
-                            return [...prev, product];
+                            if (prev.find((p) => p.product.id === product.id)) {
+                              return prev.map((p) => {
+                                if (p.product.id === product.id) {
+                                  return {
+                                    ...p,
+                                    quantity: p.quantity + 1,
+                                  };
+                                }
+                                return p;
+                              });
+                            }
+                            return [...prev, { product: product, quantity: 1 }];
                           });
                         }}
                       >
@@ -463,16 +509,21 @@ const TaskFormDialog = ({
                     );
                   }}
                 />
-                {productsSelected && (
+                {productsSelected.length > 0 && (
                   <TableCustom
-                    datas={productsSelected.map((product, index) => ({
-                      index: index,
-                      id: product.id,
-                      name: product.name,
-                      productCategory: product.category?.name || 'Non défini',
-                      price: product.price,
-                      brand: product.brand?.name || 'Non défini',
-                    }))}
+                    datas={productsSelected.map((product, index) => {
+                      if (!product.product) productsSelected.splice(index, 1);
+                      return {
+                        index: index,
+                        id: product.product.id,
+                        name: product.product.name,
+                        productCategory:
+                          product.product.category?.name || 'Non défini',
+                        price: product.product.price,
+                        brand: product.product.brand?.name || 'Non défini',
+                        quantity: product.quantity,
+                      };
+                    })}
                     onRowClick={() => void 0}
                     columns={[
                       {
@@ -486,6 +537,53 @@ const TaskFormDialog = ({
                           <Typography variant="body2">
                             {data.productCategory}
                           </Typography>
+                        ),
+                      },
+                      {
+                        key: 'quantity',
+                        label: 'Quantité',
+                        render: (data) => (
+                          <Stack direction="row" gap="2px" alignItems="center">
+                            <IconButton
+                              disabled={(data.quantity as number) <= 1}
+                              onClick={() => {
+                                setProductsSelected((prev) =>
+                                  prev.map((product, i) => {
+                                    if (i === data.index) {
+                                      return {
+                                        product: product.product,
+                                        quantity: product.quantity - 1,
+                                      };
+                                    }
+                                    return product;
+                                  })
+                                );
+                              }}
+                            >
+                              <IconMinus size={16} />
+                            </IconButton>
+                            <Typography variant="body2">
+                              {data.quantity}
+                            </Typography>
+                            <IconButton>
+                              <IconPlus
+                                size={16}
+                                onClick={() => {
+                                  setProductsSelected((prev) =>
+                                    prev.map((product, i) => {
+                                      if (i === data.index) {
+                                        return {
+                                          ...product,
+                                          quantity: product.quantity + 1,
+                                        };
+                                      }
+                                      return product;
+                                    })
+                                  );
+                                }}
+                              />
+                            </IconButton>
+                          </Stack>
                         ),
                       },
                       {
