@@ -10,6 +10,7 @@ import { TaskCategory } from './types/taskCategory.type';
 import { TaskCategoryStatus } from './types/taskCategoryStatus.type';
 import { User, UserDto } from './types/user.type';
 import { Roles } from './types/roles.type';
+import { TaskProductItem } from './types/taskProductItem.type';
 export {
   Bike,
   User,
@@ -24,4 +25,5 @@ export {
   TaskCategory,
   TaskCategoryStatus,
   Roles,
+  TaskProductItem,
 };
