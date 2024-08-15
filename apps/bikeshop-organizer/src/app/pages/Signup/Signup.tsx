@@ -8,21 +8,19 @@ import {
   Typography,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import AuthLayout from '../../layout/Auth/Auth.layout';
 import { UserDto } from '@bikeshop-organizer/types';
+import { Controller, useForm } from 'react-hook-form';
 
 const Signup = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+  const { handleSubmit, control } = useForm();
 
   const { enqueueSnackbar } = useSnackbar();
   const { signup } = useAuth();
 
-  const handleSignup = async () => {
+  const handleSignup = async (data: unknown) => {
+    const { email, password, firstName, lastName } = data as UserDto;
     if (!email) {
       enqueueSnackbar('Email requis', { variant: 'error' });
       return;
@@ -50,7 +48,15 @@ const Signup = () => {
 
   return (
     <AuthLayout imgSrc="/signup.png">
-      <>
+      <form
+        onSubmit={handleSubmit((data) => handleSignup(data))}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '50px',
+        }}
+      >
         <Stack alignItems="center" gap="5px">
           <Typography variant="h2" color="neutralDark.100">
             Bienvenue !
@@ -65,57 +71,116 @@ const Signup = () => {
           </Typography>
         </Stack>
         <Stack width="100%" gap="20px">
-          <Box>
-            <InputLabel htmlFor="firstName">Prénom</InputLabel>
-            <TextField
-              type="text"
-              id="firstName"
-              name="firstName"
-              fullWidth
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </Box>
-          <Box>
-            <InputLabel htmlFor="lastName">Nom</InputLabel>
-            <TextField
-              type="text"
-              id="lastName"
-              name="lastName"
-              fullWidth
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </Box>
-          <Box>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <TextField
-              type="email"
-              id="email"
-              name="email"
-              fullWidth
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </Box>
-          <Box>
-            <InputLabel htmlFor="password">Mot de passe</InputLabel>
-            <TextField
-              type="password"
-              id="password"
-              name="password"
-              fullWidth
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </Box>
+          <Controller
+            name="firstName"
+            control={control}
+            defaultValue={''}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              return (
+                <Box width="100%">
+                  <InputLabel htmlFor="firstName" required>
+                    Prénom
+                  </InputLabel>
+                  <TextField
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    error={!!error}
+                    required
+                  />
+                </Box>
+              );
+            }}
+            rules={{
+              required: 'Champs requis',
+            }}
+          />
+          <Controller
+            name="lastName"
+            control={control}
+            defaultValue={''}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              return (
+                <Box width="100%">
+                  <InputLabel htmlFor="lastName" required>
+                    Nom
+                  </InputLabel>
+                  <TextField
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    error={!!error}
+                    required
+                  />
+                </Box>
+              );
+            }}
+            rules={{
+              required: 'Champs requis',
+            }}
+          />
+          <Controller
+            name="email"
+            control={control}
+            defaultValue={''}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              return (
+                <Box width="100%">
+                  <InputLabel htmlFor="email" required>
+                    Email
+                  </InputLabel>
+                  <TextField
+                    type="email"
+                    id="email"
+                    name="email"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    error={!!error}
+                    required
+                  />
+                </Box>
+              );
+            }}
+            rules={{
+              required: 'Champs requis',
+            }}
+          />
+          <Controller
+            name="password"
+            control={control}
+            defaultValue={''}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              return (
+                <Box width="100%">
+                  <InputLabel htmlFor="password" required>
+                    Mot de passe
+                  </InputLabel>
+                  <TextField
+                    type="password"
+                    id="password"
+                    name="password"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    error={!!error}
+                    required
+                  />
+                </Box>
+              );
+            }}
+            rules={{
+              required: 'Champs requis',
+            }}
+          />
         </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleSignup}
-        >
+        <Button variant="contained" color="primary" fullWidth type="submit">
           M'inscrire
         </Button>
         <Link
@@ -128,7 +193,7 @@ const Signup = () => {
         >
           Déjà inscrit ? Connectez-vous
         </Link>
-      </>
+      </form>
     </AuthLayout>
   );
 };

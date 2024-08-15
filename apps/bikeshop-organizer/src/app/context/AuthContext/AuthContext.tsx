@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack';
 import { getUserEmail } from '../../utils/jwt/getUserEmail';
 import { getUserByEmail } from '../../utils/api/user/getUserByEmail';
 import instance from '../../utils/api';
+import { FieldValues, UseFormSetValue } from 'react-hook-form';
 const AuthContext = createContext<AuthCtx>({
   user: null,
   setUser: () => {},
@@ -54,7 +55,11 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (
+    email: string,
+    password: string,
+    setValue?: UseFormSetValue<FieldValues>
+  ) => {
     try {
       const response = await loginApi(email, password);
       setUser(response.user);
@@ -64,6 +69,10 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
       navigate(MAIN_ROUTE);
     } catch (error) {
       if ((error as { response: { status: number } }).response.status === 401) {
+        if (setValue) {
+          setValue('email', '');
+          setValue('password', '');
+        }
         enqueueSnackbar('Email ou mot de passe incorrect', {
           variant: 'error',
         });

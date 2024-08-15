@@ -8,18 +8,19 @@ import {
   Typography,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext/AuthContext';
 import AuthLayout from '../../layout/Auth/Auth.layout';
+import { Controller, useForm } from 'react-hook-form';
+import { LoginDto } from '../../utils/api/auth/types';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { handleSubmit, control, setValue } = useForm();
 
   const { enqueueSnackbar } = useSnackbar();
   const { login } = useAuth();
 
-  const handleLogin = async () => {
+  const handleLogin = async (data: unknown) => {
+    const { email, password } = data as LoginDto;
     if (!email) {
       enqueueSnackbar('Email requis', { variant: 'error' });
       return;
@@ -28,12 +29,20 @@ const Login = () => {
       enqueueSnackbar('Mot de passe requis', { variant: 'error' });
       return;
     }
-    await login(email, password);
+    await login(email, password, setValue);
   };
 
   return (
     <AuthLayout imgSrc="/login.png">
-      <>
+      <form
+        onSubmit={handleSubmit((data) => handleLogin(data))}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '50px',
+        }}
+      >
         <Stack alignItems="center" gap="5px">
           <Typography variant="h2" color="neutralDark.100">
             Connexion
@@ -48,40 +57,70 @@ const Login = () => {
           </Typography>
         </Stack>
         <Stack width="100%" gap="20px">
-          <Box>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <TextField
-              type="email"
-              id="email"
-              name="email"
-              fullWidth
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </Box>
+          <Controller
+            name="email"
+            control={control}
+            defaultValue={''}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              return (
+                <Box width="100%">
+                  <InputLabel htmlFor="email" required>
+                    Email
+                  </InputLabel>
+                  <TextField
+                    type="email"
+                    id="email"
+                    name="email"
+                    fullWidth
+                    onChange={onChange}
+                    value={value}
+                    error={!!error}
+                    required
+                  />
+                </Box>
+              );
+            }}
+            rules={{
+              required: 'Champs requis',
+            }}
+          />
           <Stack gap="10px">
-            <Box>
-              <InputLabel htmlFor="password">Mot de passe</InputLabel>
-              <TextField
-                type="password"
-                id="password"
-                name="password"
-                fullWidth
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </Box>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue={''}
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => {
+                return (
+                  <Box width="100%">
+                    <InputLabel htmlFor="password" required>
+                      Mot de passe
+                    </InputLabel>
+                    <TextField
+                      type="password"
+                      id="password"
+                      name="password"
+                      fullWidth
+                      onChange={onChange}
+                      value={value}
+                      error={!!error}
+                      required
+                    />
+                  </Box>
+                );
+              }}
+              rules={{
+                required: 'Champs requis',
+              }}
+            />
             <Link variant="link" href="/reset-password" color="primary">
               Mot de passe oublié ?
             </Link>
           </Stack>
         </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleLogin}
-        >
+        <Button variant="contained" color="primary" fullWidth type="submit">
           Se connecter
         </Button>
         <Link
@@ -94,7 +133,7 @@ const Login = () => {
         >
           Pas encore de compte ? Inscrivez-vous
         </Link>
-      </>
+      </form>
     </AuthLayout>
   );
 };
