@@ -1,5 +1,4 @@
-import { Roles } from '@bikeshop-organizer/types';
-
+import { Roles } from '../../../libs/types';
 export class CreateUserDto {
   email: string;
   password: string;

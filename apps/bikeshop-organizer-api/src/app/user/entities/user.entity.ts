@@ -1,4 +1,4 @@
-import { Roles } from '@bikeshop-organizer/types';
+import { Roles } from '../../../libs/types';
 import {
   Column,
   CreateDateColumn,

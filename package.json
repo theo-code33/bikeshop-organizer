@@ -5,7 +5,6 @@
   "scripts": {},
   "private": true,
   "dependencies": {
-    "@bikeshop-organizer/types": "/Users/gillet/Desktop/projet-fil-rouge/bikeshop-organizer/libs/types",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.16",
@@ -23,6 +22,7 @@
     "bcrypt": "^5.1.1",
     "codes-postaux": "^4.1.0",
     "dayjs": "^1.11.11",
+    "dotenv-webpack": "^8.1.0",
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
@@ -46,6 +46,7 @@
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
+    "@bikeshop-organizer/types": "file:./dist/libs/types",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/cypress": "17.2.8",

@@ -15,7 +15,12 @@
         "main": "apps/bikeshop-organizer-api/src/main.ts",
         "tsConfig": "apps/bikeshop-organizer-api/tsconfig.app.json",
         "assets": ["apps/bikeshop-organizer-api/src/assets"],
-        "webpackConfig": "apps/bikeshop-organizer-api/webpack.config.js"
+        "webpackConfig": "apps/bikeshop-organizer-api/webpack.config.js",
+        "generatePackageJson": true,
+        "buildLibsFromSource": true,
+        "generateLockfile": true,
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       },
       "configurations": {
         "development": {},
@@ -53,6 +58,10 @@
     },
     "down-dev": {
       "command": "APP_PATH=$(pwd)/{projectRoot} && docker-compose --env-file $APP_PATH/.env.development -f $APP_PATH/docker-compose.dev.yml down"
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/bikeshop-organizer-api/Dockerfile . -t bikeshop-organizer-api"
     }
   },
   "tags": []

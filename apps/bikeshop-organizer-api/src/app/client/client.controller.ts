@@ -17,7 +17,7 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { Roles as RolesEnum } from '../../libs/types';
 import { IRequest } from '../auth/types/request.type';
 import { BikeService } from '../bike/bike.service';
 

@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Roles } from '@bikeshop-organizer/types';
+import { Roles } from '../../libs/types';
 
 describe('UserService', () => {
   let service: UserService;
