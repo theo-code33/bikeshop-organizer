@@ -27,7 +27,7 @@ const MainLayout = ({ children }: { children: JSX.Element }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const isUserRole = user?.role === 'user';
+  const isUserRole = user?.role === 'user' || !user?.shop;
   return (
     <Grid container overflow="hidden" height="100vh" position="relative">
       {!isUserRole && (
