@@ -19,13 +19,29 @@ export class MailController {
   @Post('send-create-shop-mail')
   sendCreateShopMail(@Body() sendCreateShopMailDto: SendCreateShopMailDto) {
     try {
-      const { userId, email, userFirstName, userLastName } =
-        sendCreateShopMailDto;
+      const {
+        userId,
+        email,
+        userFirstName,
+        userLastName,
+        shopName,
+        shopSiret,
+        shopPhoneNumber,
+        shopAddress,
+        shopPostalCode,
+        shopCity,
+      } = sendCreateShopMailDto;
       return this.mailService.sendCreateShopMail(
         userId,
         email,
         userFirstName,
-        userLastName
+        userLastName,
+        shopName,
+        shopSiret,
+        shopPhoneNumber,
+        shopAddress,
+        shopPostalCode,
+        shopCity
       );
     } catch (error) {
       throw new HttpException(

@@ -29,7 +29,13 @@ export class MailService {
     userId: string,
     email: string,
     userFirstName: string,
-    userLastName: string
+    userLastName: string,
+    shopName: string,
+    shopSiret: string,
+    shopPhoneNumber: string,
+    shopAddress: string,
+    shopPostalCode: string,
+    shopCity: string
   ) {
     await this.mailerService.sendMail({
       to: process.env.MAIL_ADMIN,
@@ -40,6 +46,12 @@ export class MailService {
         email,
         userFirstName,
         userLastName,
+        shopName,
+        shopSiret,
+        shopPhoneNumber,
+        shopAddress,
+        shopPostalCode,
+        shopCity,
       },
     });
   }
