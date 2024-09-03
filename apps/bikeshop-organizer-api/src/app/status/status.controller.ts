@@ -17,7 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 
-import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { Roles as RolesEnum } from '../../libs/types';
 
 @Controller('status')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

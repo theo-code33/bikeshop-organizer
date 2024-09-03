@@ -3,7 +3,7 @@ import { ShopService } from './shop.service';
 import { Repository } from 'typeorm';
 import { Shop } from './entities/shop.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Roles } from '@bikeshop-organizer/types';
+import { Roles } from '../../libs/types';
 import { User } from '../user/entities/user.entity';
 import { CreateShopDto } from './dto/create-shop.dto';
 

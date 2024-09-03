@@ -16,7 +16,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { Roles as RolesEnum } from '../../libs/types';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { IRequest } from '../auth/types/request.type';
 

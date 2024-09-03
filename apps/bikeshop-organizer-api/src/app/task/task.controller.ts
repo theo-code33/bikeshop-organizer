@@ -15,7 +15,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { Roles as RolesEnum } from '../../libs/types';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { TaskProductItemService } from '../task-product-item/task-product-item.service';
 import { CreateTaskProductItemDto } from '../task-product-item/dto/create-task-product-item.dto';

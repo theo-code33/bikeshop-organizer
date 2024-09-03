@@ -17,7 +17,7 @@ import { UpdateProductCategoryDto } from './dto/update-product-category.dto';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Roles as RolesEnum } from '@bikeshop-organizer/types';
+import { Roles as RolesEnum } from '../../libs/types';
 import { IRequest } from '../auth/types/request.type';
 
 @Controller('product-category')
