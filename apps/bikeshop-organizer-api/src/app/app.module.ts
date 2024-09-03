@@ -37,7 +37,10 @@ import { TaskProductItem } from './task-product-item/entities/task-product-item.
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.development',
+      envFilePath:
+        process.env.NODE_ENV === 'production'
+          ? __dirname + '/assets/.env'
+          : __dirname + '.env.development',
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid('development', 'production')
