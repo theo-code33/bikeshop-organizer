@@ -44,12 +44,12 @@ const UserAvatarMenuItem = () => {
   ) : (
     <>
       <Button
-        id="demo-customized-button"
         aria-controls={open ? 'demo-customized-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         variant="contained"
         disableElevation
+        data-testid="user-button"
         onClick={(e) => setAnchorEl(e.currentTarget)}
         sx={{
           bgcolor: 'background.paper',
