@@ -61,7 +61,7 @@
     },
     "docker-build": {
       "dependsOn": ["build"],
-      "command": "docker build -f apps/bikeshop-organizer-api/Dockerfile . -t bikeshop-organizer-api"
+      "command": "docker build -f apps/bikeshop-organizer-api/Dockerfile . -t theodev33/bikeshop-organizer-api"
     }
   },
   "tags": []
