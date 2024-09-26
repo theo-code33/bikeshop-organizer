@@ -4,7 +4,7 @@ import {
   IconAdjustmentsHorizontal,
   IconLayoutGrid,
   IconShoppingBag,
-  IconTools,
+  // IconTools,
   IconUsers,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
@@ -57,13 +57,13 @@ const MainLayout = ({ children }: { children: JSX.Element }) => {
                 />
                 Tableau de bord
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 onClick={() => navigate('/prestations')}
                 sx={menuItemStyle}
               >
                 <IconTools color={theme.palette.primary.xdark} opacity={0.7} />
                 Prestations
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem
                 onClick={() => navigate('/boutique')}
                 sx={menuItemStyle}
