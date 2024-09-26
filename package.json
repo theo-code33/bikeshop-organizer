@@ -46,7 +46,7 @@
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
-    "@bikeshop-organizer/types": "file:./dist/libs/types",
+    "@bikeshop-organizer/types": "file:dist/libs/types",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
     "@nx/cypress": "17.2.8",
