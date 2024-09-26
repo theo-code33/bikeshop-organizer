@@ -8,6 +8,7 @@ export interface User extends Common {
   lastName: string;
   role: Roles;
   shop?: Shop;
+  picture?: string;
 }
 
 export interface UserDto {
